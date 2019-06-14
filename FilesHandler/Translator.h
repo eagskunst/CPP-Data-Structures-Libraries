@@ -29,7 +29,7 @@ class Translator {
             }
         }
 
-        static void translate(char* in, char* out, char*(*pf)(T obj) ){
+        static void translate(char* in, char* out, void(*pf)(T Obj, char *buffer) ){
         	File<T> source(in, NULL, pf);
         	File<char*> dest(out);
 
@@ -37,12 +37,13 @@ class Translator {
         	dest.open(ios::out);
 
         	while(true){
-        		T buffer = source.read();
+        		source.read();
 
         		if(source.isEOF() ) break;
 
-        		//FIXME: function asString returning thrash.
-        		dest.write( source.asString(buffer) );
+        		char buffer[300];
+        		source.asString(buffer);
+        		dest.write(buffer);
         	}
         }
 

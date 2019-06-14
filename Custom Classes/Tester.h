@@ -17,7 +17,7 @@ class Tester
         char* getStr(){ return str; }
 
         static Tester asObject(char* str){ return Tester(str); }
-        static char* asString(Tester t){ return t.getStr(); }
+        static void asString(Tester t, char *dest){ strcpy(dest, t.getStr() ); }
 
         friend ostream& operator<<(ostream &os, Tester t){
             cout<<t.str;
