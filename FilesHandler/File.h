@@ -78,8 +78,6 @@ class File {
 
         //Transformation operations.
         void asObject(char* str){ buffer = toObject(str);  }
-
-        //FIXME: function returning thrash.
         void asString(char *dest){ toString(buffer, dest); }
 
         void print();
