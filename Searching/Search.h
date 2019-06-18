@@ -9,15 +9,15 @@ public:
     Search() {}
     ~Search() {}
 
-    int linear(T *v, int length, T key) {
+    static int linear(T *v, int length, T key) {
         for(int i = 0; i < length; i++)
             if(v[i] == key)
-                return i-1;
+                return i+1;
 
         return -1;
     }
 
-    int blocks(T *v, int length, T key) {
+    static int blocks(T *v, int length, T key) {
         int block = sqrt(length), index = -1, cont = 0, aux = 0;
 
         for(int i = block-1; i < length; i += block) {
@@ -40,7 +40,7 @@ public:
         return index;
     }
 
-    int binary(T *v, int length, int lower, T key) {
+    static int binary(T *v, int length, int lower, T key) {
         int upper = length-1, center = (length + lower)/2;
 
         if(v[center] == key) return center;
@@ -50,7 +50,7 @@ public:
 
     }
 
-    void hashing(T *v, int length, T key);
+    static int hashing(T *v, int length, T key);
 
 protected:
 

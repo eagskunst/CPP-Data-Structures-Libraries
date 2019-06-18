@@ -11,7 +11,7 @@ class Sort {
         Sort() {}
         ~Sort() {}
 
-        void bubble(T *v, int length) {
+        static void bubble(T *v, int length) {
             bool isSwap = false;
 
             for(int i = 0; (i < length - 2) && !isSwap; i++) {
@@ -23,16 +23,14 @@ class Sort {
                         isSwap = false;
                     }
             }
-
-            //print(v, length);
         }
 
-        void print(T *v,int  length){
+        static void print(T *v,int  length){
             for(int i = 0; i < length; i++)
                 cout<<v[i]<<endl;
         }
 
-        void shaker(T *v, int length) {
+        static void shaker(T *v, int length) {
             for (int i = 0; i < length/2; i++) {
                 bool swapped = false;
 
@@ -53,7 +51,7 @@ class Sort {
             }
         }
 
-        void directInsertion(T *v, int length) {
+        static void directInsertion(T *v, int length) {
             T aux;
 
             for(int i = 1; i < length; i++) {
@@ -67,9 +65,9 @@ class Sort {
             }
         }
 
-        void radix(T *v, int length);
+        static void radix(T *v, int length);
 
-        void shell(T *v, int length) {
+        static void shell(T *v, int length) {
             for (int gap = length/2; gap > 0; gap /= 2)
 
                 for (int i = gap; i < length; i++) {
@@ -83,7 +81,7 @@ class Sort {
                 }
         }
 
-        void quicksort(T *v, int length) {
+        static void quicksort(T *v, int length) {
             if(length <= 1)
                 return;
 
@@ -96,7 +94,7 @@ class Sort {
     protected:
 
     private:
-        int findPivot(T *v, int length) {
+        static int findPivot(T *v, int length) {
             int low = 0, high = length - 1;
 
             while(low < high) {
