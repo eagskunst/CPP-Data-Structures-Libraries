@@ -60,7 +60,7 @@ class fileManager
     void close()                                            { if(file.is_open()) file.close(); }
     void read(char *line_)                                  { char line[300]; file.getline(line, 300, '\n'); strcpy(line_, line); }
     void read(T &b)                                         { file.read(reinterpret_cast<char *>(&b), size); }
-    void readAndConvert(T &b, T(*convertion)(char *str))    { char line[300]; file.getline(line, 300, '\n'); fileBuffer = convertion(line);}
+    void readAndConvert(T &b, T(*convertion)(char *str))    { char line[300]; file.getline(line, 300, '\n'); b = convertion(line); }
     void write(char *line_)                                 { char line[300]; strcpy(line,line_); strcat(line, "\n"); file << line; }
     void write(T &b)                                        { file.write(reinterpret_cast<char *>(&b), size); }
     void readFrom(int pos)                                  { file.seekg(pos*size, ios::beg); }
