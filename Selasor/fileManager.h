@@ -62,6 +62,7 @@ class fileManager
     void read(T &b)                                         { file.read(reinterpret_cast<char *>(&b), size); }
     void readAndConvert(T &b, T(*convertion)(char *str))    { char line[300]; file.getline(line, 300, '\n'); b = convertion(line); }
     void write(char *line_)                                 { char line[300]; strcpy(line,line_); strcat(line, "\n"); file << line; }
+    void writeNoEndLine(char *line_)                        { char line[300]; strcpy(line,line_); file << line; }
     void write(T &b)                                        { file.write(reinterpret_cast<char *>(&b), size); }
     void readFrom(int pos)                                  { file.seekg(pos*size, ios::beg); }
     void writeFrom(int pos)                                 { file.seekp(pos*size, ios::beg); }
@@ -74,8 +75,18 @@ class fileManager
                                                                 readFrom(previousPos); return i; } }
     bool getEOF()                                           { return file.eof(); }
     bool getFail()                                          { return file.fail(); }
+    void readFromStart()                                    { file.seekg(0, ios::beg); }
+    void readFromEnd()                                      { file.seekg(0, ios::end); }
+    void writeFromStart()                                   { file.seekp(0, ios::beg); }
+    void writeFromEnd()                                     { file.seekp(0, ios::end); }
     bool getIsTxt()                                         { return isTxt;}
     T getBuffer()                                           { return fileBuffer; }
+    void cleanFile(char *fileName)                          { fileManager f(fileName, OPENMODE_READING_TXT); int trueFileSize = f.getSize(TEXT_FILE);
+                                                              char fileContent[trueFileSize][300]; f.close(); f.open(OPENMODE_READING_TXT);
+                                                              for(int i = 0; i < trueFileSize; i++){ f.read(fileContent[i]); }
+                                                              f.close(); f.open(OPENMODE_WRITING_TXT); for(int i = 0; i < trueFileSize; i++) {
+                                                              if(i == trueFileSize - 1) f.writeNoEndLine(fileContent[i]); else f.write(fileContent[i]);
+                                                              } f.close(); }
 
 };
 
