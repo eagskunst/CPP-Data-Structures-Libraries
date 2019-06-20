@@ -16,8 +16,8 @@ class Archivo {
     T buffer; //Ultimo elemento leido
     int sizeT; //sizeof del tipo de Objeto
     bool isTextFile = true;
-    void(*toString)(T obj, char *dest);
-    T(*toObj)(char *str);    
+    void(*toString)(T obj, char *dest) = NULL;
+    T(*toObj)(char *str) = NULL;    
 
 
     public: 
@@ -25,13 +25,14 @@ class Archivo {
             Archivo("");
         }
 
-        Archivo(char *nombre, bool isTextFile){
+        Archivo(char *nombre, bool isTextFile = true){
             Archivo(nombre, NULL, NULL, isTextFile);
+            setNombre(nombre);
         }
 
-        Archivo(char *nombre, T(*toObject)(char *str), void(*toString)(T Obj, char *buffer),
+        Archivo(const char *nom, T(*toObject)(char *str), void(*toString)(T Obj, char *buffer),
                 bool isTextFile){
-            strcpy(this->nombre, nombre);
+            strcpy(this->nombre, nom);
             this->isTextFile = isTextFile;
             this->toObj = toObject;
             this->toString = toString;
@@ -40,6 +41,14 @@ class Archivo {
 
         void setNombre(char *nombre){
             strcpy(this->nombre, nombre);
+        }
+
+        void setToObj(T(*toObject)(char *str)){
+            this->toObj = toObject;
+        }
+        
+        void setToString(void(*toString)(T Obj, char *buffer)){
+            this->toString = toString;
         }
 
         bool abrir(const _Ios_Openmode &openmode){
@@ -60,8 +69,13 @@ class Archivo {
             }
             else{
                 char temp[300];
-                file.getline(temp, 300,'\n');
-                if(strcmp(temp, "") != 0) buffer = toObj(temp);
+                file >> temp;
+                if(toObj == NULL){
+                    cout<<"Funcion puntero nula, no se puede hacer la conversion"<<endl;
+                }
+                else if(strcmp(temp, "") != 0) {
+                    buffer = toObj(temp);
+                }
             }
             return buffer;
         }
@@ -72,8 +86,13 @@ class Archivo {
             }
             else{
                 char temp[300];
-                toString(a, temp);
-                file<<temp<<endl;
+                if(toString == NULL){
+                    cout<<"Funcion puntero nula, no se puede hacer la conversion"<<endl;
+                }
+                else{
+                    toString(a, temp);
+                    file<<temp<<endl;
+                }
             }
         }
 
@@ -101,10 +120,11 @@ class Archivo {
                 else{
                     N = 0;
                     goToBegin(read);
-                    while (!fin()){
-                        char temp[300];
-                        file.getline(temp, 300, '\n');
-                        if(strcmp(temp, "") != 0) N++;
+                    char temp[300];
+                    while (file >> temp){
+                        if(strcmp(temp, "") != 0){
+                            N++;
+                        } 
                     }
                     goToBegin(read);
                 }
