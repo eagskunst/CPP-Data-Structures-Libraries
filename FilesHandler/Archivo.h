@@ -114,7 +114,7 @@ class Archivo {
                 if(!isTextFile){
                     goToEnd(read);
                     int s = file.tellg();
-                    N = file.tellg()/sizeof(buffer);
+                    N = s/sizeof(buffer);
                     goToBegin(read);
                 }
                 else{

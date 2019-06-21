@@ -36,6 +36,15 @@ public:
         strcpy(dest, str.c_str());
     }
 
+    friend bool operator==(const Persona &a, const Persona &b){
+        if(a.nombre == b.nombre && a.edad == b.edad){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     friend ostream & operator << (ostream &salida, Persona A){
         salida << "Nombre: "<< A.nombre<<
         " Edad: "<< A.edad<<endl;
