@@ -13,7 +13,6 @@ public:
         for(int i = 0; i < length; i++)
             if(v[i] == key)
                 return i+1;
-
         return -1;
     }
 
