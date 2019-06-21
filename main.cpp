@@ -3,6 +3,7 @@
 #include "FilesHandler\Archivo.h"
 #include "Custom Classes\Persona.h"
 #include "Searching/busquedas.h"
+#include "Searching/HashSearch.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
@@ -44,6 +45,11 @@ int main(int argc, char const *argv[]){
     int n = sizeof(v)/sizeof(Persona);
     cout<<"Pos: "<<busquedaPorBloques(v,n,Persona("Bertha", 19))<<endl;
     cout<<"Pos: "<<busquedaPorBloques(v,n,Persona("Ivan", 19))<<endl;
-
+    HashSearch hs;
+    hs.generateIntArray(n);
+    int hashcode;
+    cin>>hashcode;
+    int value = hs.localizarHash(hashcode, n);
+    cout<<"Datos:" << v[value]<<endl;
     return 0;
 }
