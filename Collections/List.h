@@ -1,5 +1,11 @@
 #ifndef LIST_H
-#define LIST_H
+
+#if false
+#if __cplusplus <= 199711L
+    #error This library needs at least a C++11 compliant compiler
+#else  define LIST_H
+#endif // __cplusplus
+#endif // false
 
 #include <iostream>
 #include "Collections/Collection.h"
@@ -17,6 +23,10 @@ class List: public Collection<T>{
         //FIXME: error: 'int Collection<T>::remove(T) [with T = int]' cannot be overloaded
         //int remove(T element);
 
+        //Base class methods.
+        using Collection<T>::isFull;
+        using Collection<T>::print;
+
     protected:
 
     private:
@@ -26,10 +36,6 @@ class List: public Collection<T>{
         using Collection<T>::sValue;
         using Collection<T>::length;
         using Collection<T>::numElements;
-
-        //Base methods.
-        using Collection<T>::isFull;
-        using Collection<T>::print;
 
         //Base inner 'Errors' enum.
         using Collection<T>::SUCCESS;
@@ -44,7 +50,7 @@ class List: public Collection<T>{
 template <typename T>
 int List<T>::add(T element){
     if(isFull() ){
-        std::cout<<"Lista llena."<<std::endl;
+        std::cerr<<"Lista llena."<<std::endl;
         return MEMORY_FULL;
     }
 
@@ -56,8 +62,8 @@ int List<T>::add(T element){
 template <typename T>
 T List<T>::get(int index){
     if(index > numElements || index < 0){
-        std::cout<<"Indice invalido."<<std::endl;
-        return INDEX_OUT_OF_BOUNDS;
+        std::cerr<<"Indice invalido."<<std::endl;
+        return NULL;//INDEX_OUT_OF_BOUNDS;
     }
 
     return v[index];
@@ -69,25 +75,27 @@ int List<T>::find(const T element){
         if(v[i] == element)
             return i;
 
-    std::cout<<"Elemento no encontrado."<<std::endl;
+    std::cerr<<"Elemento no encontrado."<<std::endl;
     return ELEMENT_NOT_FOUND;
 }
 
 template <typename T>
 int List<T>::remove(){
-    if(numElements > 0){
+    if(numElements > 0 || numElements <= length){
         v[numElements] = sValue;
         numElements--;
         return SUCCESS;
+
+    std::cerr<<v[numElements]<<std::endl;
     }
-    std::cout<<"Lista vacia."<<std::endl;
+    std::cerr<<"Lista vacia."<<std::endl;
     return MEMORY_EMPTY;
 }
 
 template <typename T>
 int List<T>::remove(int index){
     //TODO: handle acces over arbitrary poitions.
-    std::cout<<"Operacion no valida."<<std::endl;
+    std::cerr<<"Operacion no valida."<<std::endl;
     return UNSUPPORTED_OPERATION;
 
     if(index > numElements || index < 0){
@@ -105,9 +113,10 @@ int List<T>::remove(int index){
 /*template <typename T>
 int List<T>::remove(T element){
     //TODO: handle acces over arbitrary poitions.
-    std::cout<<"Operacion no valida."<<std::endl;
+    std::cerr<<"Operacion no valida."<<std::endl;
     return UNSUPPORTED_OPERATION;
 
     return remove(find(element));
 }*/
+
 #endif // LIST_H
