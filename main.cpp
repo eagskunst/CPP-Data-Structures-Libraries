@@ -6,6 +6,7 @@
 #include "Searching/busquedas.h"
 #include "Searching/HashSearch.h"
 #include "Collections/CircularQueue.h"
+#include "Collections/Stack.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
@@ -29,6 +30,18 @@ int main(int argc, char const *argv[]){
     }
     cout<<"Otro print"<<endl;
     queue.print();
+
+    Stack<Str> stack(6);
+    stack.print();
+    stack.remove(s1);
+    for (int i = 0; i < n; i++){
+        stack.add(textos[i]);
+    }
+    stack.print();
+    stack.remove(s1);
+    stack.remove(s1);
+    cout<<"Otro print"<<endl;
+    stack.print();
 
     return 0;
 }

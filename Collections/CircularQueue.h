@@ -12,26 +12,32 @@ class CircularQueue{
         int size;
         int front;
         int back;
+        bool badMemory = false;
     public:
         CircularQueue(int size);
-        void add(T buffer);
-        void remove(T &buffer);
+        bool add(T buffer);
+        bool remove(T &buffer);
         void print();
 };
 
 template <typename T>
 CircularQueue<T>::CircularQueue(int size):size(size),front(-1),back(-1){
     this->queue = new T[size];
-    if(!queue) std::cout<<"Fallo al asignar memoria.";
+    if(!queue) {
+        this->badMemory = true;
+        std::cout<<"Fallo al asignar memoria.";
+    }
+
 }
 
 template <typename T>
-void CircularQueue<T>::add(T buffer){
+bool CircularQueue<T>::add(T buffer){
+    if(this->badMemory)  return false;
     /*Revisa si el frente esta al comienzo y el ultimo elemento esta al final de la cola 
     o si el ultimo element + 1 es igual al frente, lo que indica que la cola ya esta llena */
     if( (front == 0 && back == size - 1) || (back+1) == front){ 
         cout<<"La cola esta llena"<<'\n';
-        return;
+        return false;
     }
 
     //Si la cola ya va a llegar a la ultima posicion y no esta llena, la ultima posicion cambia
@@ -40,12 +46,15 @@ void CircularQueue<T>::add(T buffer){
     back++;
     this->queue[back] = buffer;
     if(front == -1) front++; 
+    return true;
 }
 
 template <typename T>
-void CircularQueue<T>::remove(T &buffer){
+bool CircularQueue<T>::remove(T &buffer){
+    if(this->badMemory)  return false;
     if(front == -1){
-        cout<<"La cola esta vacia"<<'\n';        
+        cout<<"La cola esta vacia"<<'\n';  
+        return false;      
     }
 
     buffer = this->queue[front];
@@ -59,6 +68,7 @@ void CircularQueue<T>::remove(T &buffer){
     else{
         front++;
     }
+    return true;
 }
 
 template <typename T>
