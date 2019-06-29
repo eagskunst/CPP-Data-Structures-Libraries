@@ -2,11 +2,64 @@
 #include <iostream>
 #include "FilesHandler\Archivo.h"
 #include "Custom Classes\Persona.h"
+#include "Custom Classes/Str.h"
 #include "Searching/busquedas.h"
 #include "Searching/HashSearch.h"
+#include "Collections/CircularQueue.h"
+#include "Collections/Stack.h"
+#include "Collections/LinkedList.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
+    CircularQueue<Str> queue(6);
+    Str s("XD");
+    queue.remove(s);
+    Str textos[] = {"Hola", "Como", "Estas", "Una"};
+    int n = sizeof(textos)/sizeof(Str);
+    cout<<n<<endl;
+    Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
+    queue.add(s1);
+    queue.add(s2);
+    queue.add(s3);
+
+    queue.print();
+
+    queue.remove(s1);
+    queue.remove(s2);
+    for(int i = 0;i<n;i++){
+        queue.add(textos[i]);
+    }
+    cout<<"Otro print"<<endl;
+    queue.print();
+
+    Stack<Str> stack(6);
+    stack.print();
+    stack.remove(s1);
+    for (int i = 0; i < n; i++){
+        stack.add(textos[i]);
+    }
+    stack.print();
+    stack.remove(s1);
+    stack.remove(s1);
+    cout<<"Otro print"<<endl;
+    stack.print();
+
+    LinkedList<Str> list;
+    Str prueba = "Una prueba", pruebaNode = "Otra prueba", otroStr = "Otro string";
+    list.insertAtStart(prueba);list.insertAtStart(pruebaNode);list.insertAtEnd(otroStr);
+    list.print();
+
+    cout<<"PRUEBA 2"<<endl;
+    for (int i = 0; i < n; i++){
+        if(i%2 == 0) list.insertAtStart(textos[i]);
+        else list.insertAtEnd(textos[i]);
+    }
+    list.print();
+
+    return 0;
+}
+
+void legacyMain(){
     cout<<"Hola mundo"<<endl;
     Persona p = Persona::transform("Emma-20");
     cout<<"Nombre: "<<p.nombre<<" Edad "<<p.edad<<endl;
@@ -51,5 +104,4 @@ int main(int argc, char const *argv[]){
     cin>>hashcode;
     int value = hs.localizarHash(hashcode, n);
     cout<<"Datos:" << v[value]<<endl;
-    return 0;
 }
