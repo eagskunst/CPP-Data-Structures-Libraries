@@ -45,8 +45,15 @@ int main(int argc, char const *argv[]){
     stack.print();
 
     LinkedList<Str> list;
-    Str prueba = "Una prueba", pruebaNode = "Otra prueba";
-    list.insertAtStart(prueba);list.insertAtStart(pruebaNode);
+    Str prueba = "Una prueba", pruebaNode = "Otra prueba", otroStr = "Otro string";
+    list.insertAtStart(prueba);list.insertAtStart(pruebaNode);list.insertAtEnd(otroStr);
+    list.print();
+
+    cout<<"PRUEBA 2"<<endl;
+    for (int i = 0; i < n; i++){
+        if(i%2 == 0) list.insertAtStart(textos[i]);
+        else list.insertAtEnd(textos[i]);
+    }
     list.print();
 
     return 0;

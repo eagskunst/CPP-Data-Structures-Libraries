@@ -14,7 +14,9 @@ private:
 public:
     LinkedList();
     bool insertAtStart(T data);
-    bool insertAtEnd();
+    bool insertAt(int i, T data);
+    bool insertAtEnd(T data);
+    bool isEmpty();
     void print();
 };
 
@@ -28,8 +30,10 @@ LinkedList<T>::LinkedList(){
 template<typename T>
 bool LinkedList<T>::insertAtStart(T data){
     Node<T> *nNode = new Node<T>(data);
+    if(!nNode) return false;
     if(size == 0){
         this->head = nNode;
+        this->tail = nNode;
     }
     else{
         nNode->next = head;
@@ -41,19 +45,62 @@ bool LinkedList<T>::insertAtStart(T data){
 }
 
 template <typename T>
-void LinkedList<T>::print(){
-    Node<T>* tempNode = this->head;;
-    while (true){
-        cout<<tempNode->getData()<<" ";
-        tempNode = tempNode->getNext();
-        if(tempNode == NULL)break;
+bool LinkedList<T>::insertAt(int i, T data){
+    if(true) return false; //Work in process
+    bool startHead = i<=size;
+    int j;
+    Node<T> *nNode = new Node<T>(data);
+    Node<T> *tempNode;
+    if(startHead){
+        j = 0;
+        tempNode = this->head;
+        while(j<=size/2){
+            if(j != i){
+                tempNode = tempNode->getNext();
+            }
+            else{
+
+            }
+            j++
+        }
     }
-    
+}
+
+template <typename T>
+bool LinkedList<T>::insertAtEnd(T data){
+    Node<T> *nNode = new Node<T>(data);
+    if(!nNode) return false;
+    if(size == 0){
+        this->head = nNode;
+        this->tail = nNode;
+    }
+    else{
+        nNode->prev = tail;
+        this->tail->next = nNode;
+        this->tail = nNode;
+    }
+}
+
+template <typename T>
+bool LinkedList<T>::isEmpty(){
+    return size == 0;
 }
 
 
+template <typename T>
+void LinkedList<T>::print(){
+    Node<T>* tempNode = this->head;
+    if(isEmpty()){
+        return;
+    }
+    do{
+        cout<<tempNode->getData()<<" ";
+        tempNode = tempNode->getNext();
+        if(tempNode == tail && tempNode != NULL){
+            cout<<tempNode->getData()<<" ";
+        }
+    }while(tempNode != this->tail);
 
-
-
+}
 
 #endif
