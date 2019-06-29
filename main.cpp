@@ -7,6 +7,7 @@
 #include "Searching/HashSearch.h"
 #include "Collections/CircularQueue.h"
 #include "Collections/Stack.h"
+#include "Collections/LinkedList.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
@@ -42,6 +43,11 @@ int main(int argc, char const *argv[]){
     stack.remove(s1);
     cout<<"Otro print"<<endl;
     stack.print();
+
+    LinkedList<Str> list;
+    Str prueba = "Una prueba", pruebaNode = "Otra prueba";
+    list.insertAtStart(prueba);list.insertAtStart(pruebaNode);
+    list.print();
 
     return 0;
 }

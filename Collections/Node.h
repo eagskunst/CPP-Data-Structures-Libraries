@@ -5,19 +5,20 @@ template <typename T>
 class Node{
 private:
     T mData;
-    Node<T> prev;
-    Node<T> next;
+    Node<T> *prev;
+    Node<T> *next;
 
 public:
-    Node(T data);
+    Node(T &data);
     T getData();
     Node<T> *getPrev();
     Node<T> *getNext();
     void setData(T data);
+    template<typename> friend class LinkedList;
 };
 
 template <typename T>
-Node<T>::Node(T data):prev(NULL),next(NULL){
+Node<T>::Node(T &data):prev(NULL),next(NULL){
     this->mData = data;
 }
 
