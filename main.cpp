@@ -2,11 +2,38 @@
 #include <iostream>
 #include "FilesHandler\Archivo.h"
 #include "Custom Classes\Persona.h"
+#include "Custom Classes/Str.h"
 #include "Searching/busquedas.h"
 #include "Searching/HashSearch.h"
+#include "Collections/CircularQueue.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
+    CircularQueue<Str> queue(6);
+    Str s("XD");
+    queue.remove(s);
+    Str textos[] = {"Hola", "Como", "Estas", "Una"};
+    int n = sizeof(textos)/sizeof(Str);
+    cout<<n<<endl;
+    Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
+    queue.add(s1);
+    queue.add(s2);
+    queue.add(s3);
+
+    queue.print();
+
+    queue.remove(s1);
+    queue.remove(s2);
+    for(int i = 0;i<n;i++){
+        queue.add(textos[i]);
+    }
+    cout<<"Otro print"<<endl;
+    queue.print();
+
+    return 0;
+}
+
+void legacyMain(){
     cout<<"Hola mundo"<<endl;
     Persona p = Persona::transform("Emma-20");
     cout<<"Nombre: "<<p.nombre<<" Edad "<<p.edad<<endl;
@@ -51,5 +78,4 @@ int main(int argc, char const *argv[]){
     cin>>hashcode;
     int value = hs.localizarHash(hashcode, n);
     cout<<"Datos:" << v[value]<<endl;
-    return 0;
 }
