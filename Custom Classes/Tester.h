@@ -19,6 +19,8 @@ class Tester
         static Tester asObject(char* str){ return Tester(str); }
         static void asString(Tester t, char *dest){ strcpy(dest, t.getStr() ); }
 
+        friend bool operator==(const Tester &a, const Tester &b){ return strcmp(a.str, b.str) == 0; }
+
         friend ostream& operator<<(ostream &os, Tester t){
             cout<<t.str;
             return os;

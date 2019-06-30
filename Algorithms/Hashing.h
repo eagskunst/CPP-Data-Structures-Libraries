@@ -20,8 +20,8 @@ class Hashing{
 		}
 
 		static int moduleHash(int key, int size){ return key%size; }
-		static int trunckateHash(int key, int size){ return (key/100%10*10 + key/10000%10); }		
-		static int centralDigitsHash(int key, int size){ return ( (key * key) /10000 %100); }
+		static int trunckateHash(int key){ return (key/100%10*10 + key/10000%10); }		
+		static int centralDigitsHash(int key){ return ( (key * key) /10000 %100); }
 		static int foldingHash(int key, int size){ 
 			int i, aux;
 			do {
