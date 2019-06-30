@@ -76,6 +76,7 @@ dkms.conf
 # Executables
 
 ### VisualStudioCode ###
+**/.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -86,4 +87,6 @@ dkms.conf
 # Ignore all local history of files
 .history
 
+#Ignore generated .txt for test only in root directory
+/*.txt
 # End of https://www.gitignore.io/api/c,c++,visualstudiocode
