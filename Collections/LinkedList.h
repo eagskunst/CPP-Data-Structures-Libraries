@@ -61,7 +61,7 @@ bool LinkedList<T>::insertAt(int i, T data){
             else{
 
             }
-            j++
+            j++;
         }
     }
 }
