@@ -69,7 +69,7 @@ class Archivo {
             }
             else{
                 char temp[300];
-                file >> temp;
+                file.getline(temp, 300);
                 if(toObj == NULL){
                     cout<<"Funcion puntero nula, no se puede hacer la conversion"<<endl;
                 }
@@ -121,7 +121,8 @@ class Archivo {
                     N = 0;
                     goToBegin(read);
                     char temp[300];
-                    while (file >> temp){
+                    while (!fin()){
+                        file.getline(temp, 300);
                         if(strcmp(temp, "") != 0){
                             N++;
                         } 
