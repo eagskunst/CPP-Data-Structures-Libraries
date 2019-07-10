@@ -13,8 +13,9 @@ class BaseStructure{
     public:
         virtual bool insertAtEnd(T data) = 0;
         virtual bool insertAtStart(T data) = 0;
-        virtual bool deleteAtEnd(T data) = 0;
-        virtual bool deleteAtStart(T data) = 0;
+        virtual bool deleteAtEnd() = 0;
+        virtual bool deleteAtStart() = 0;
+        virtual bool deleteElement(T data) = 0;
         bool isEmpty();
         void print();
         bool clear();
