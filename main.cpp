@@ -55,7 +55,12 @@ int main(int argc, char const *argv[]){
         else list.insertAtEnd(textos[i]);
     }
     list.print();
-
+    cout<<endl;
+    LinkedList<Str> test2;
+    test2.insertAtStart(Str("xd"));
+    test2.insertAtStart(textos[0]);
+    test2.insertAtStart(textos[1]);
+    test2.print();
     return 0;
 }
 

@@ -99,7 +99,7 @@ void LinkedList<T>::print(){
         if(tempNode == tail && tempNode != NULL){
             cout<<tempNode->getData()<<" ";
         }
-    }while(tempNode != this->tail);
+    }while(tempNode != this->tail && tempNode != NULL);
 
 }
 

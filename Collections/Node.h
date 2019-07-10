@@ -15,6 +15,7 @@ public:
     Node<T> *getNext();
     void setData(T data);
     template<typename> friend class LinkedList;
+    template<typename> friend class BaseStructure;
 };
 
 template <typename T>
