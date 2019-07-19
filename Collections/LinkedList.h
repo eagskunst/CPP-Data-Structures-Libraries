@@ -19,9 +19,10 @@ class LinkedList{
         friend ostream& operator<<(ostream &os, const LinkedList<T> &l){
             Node<T> *n = l.first;
             while(n){
-                n->print();
+                std::cout<<n<<std::endl;
                 n = n->next();
             }
+            delete n;
             return os;
         }
 
@@ -35,9 +36,9 @@ class LinkedList{
         Node<T>* findNode(const T, Node<T> **previous = NULL);
         Node<T>* findNode(const Node<T> *n, Node<T> **previous = NULL){ return findNode(n->getData(), previous); }
 
-        void concat(const List<T>&);
+        void concat(const LinkedList<T>&);
         void del(const T);
-        void delAll();
+        void clear();
 
     protected:
 
@@ -137,7 +138,7 @@ Node<T>* LinkedList<T>::findNode(const T element, Node<T> **previous){
 }
 
 template <typename T>
-void LinkedList<T>::concat(const List<T> &other){
+void LinkedList<T>::concat(const LinkedList<T> &other){
     //Retrieve the first node of the list to concatenate.
     Node<T> *node = other.getFirst();
 
@@ -153,8 +154,9 @@ template <typename T>
 void LinkedList<T>::del(const T element){
 
     if(first->getData() == element){
-         first = first->next();
-         size--;
+        delete first;
+        first = first->next();
+        size--;
     }
 
     size_t i = 0;
@@ -181,7 +183,7 @@ void LinkedList<T>::del(const T element){
 }
 
 template <typename T>
-void LinkedList<T>::delAll(){
+void LinkedList<T>::clear(){
     first->destroy();
     first = NULL;
 }

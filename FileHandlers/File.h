@@ -52,9 +52,8 @@ class File {
 
         //Basic position operations.
         void realocate(int pos, bool read = true){
-            read?
-                file.seekg(pos*sizeof(T), ios::beg):
-                file.seekp(pos*sizeof(T), ios::beg);
+            if(read) file.seekg(pos*sizeof(T), ios::beg);
+            else file.seekp(pos*sizeof(T), ios::beg);
         }
         void gotoEOF(bool read = true){ realocate(length, read); }
         void gotoSOF(bool read = true){ // Go to the start of the file.
