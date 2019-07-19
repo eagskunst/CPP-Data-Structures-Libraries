@@ -6,7 +6,8 @@
 template <typename T>
 class LinkedPile: LinkedBase<T>{
     public:
-        LinkedPile():LinkedBase();
+        LinkedPile(): LinkedBase<T>(){};
+        LinkedPile(T data): LinkedBase<T>(data){};
 };
 
 #endif // LINKEDPILE_H
