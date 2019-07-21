@@ -7,7 +7,7 @@
 #include "Searching/HashSearch.h"
 #include "Collections/CircularQueue.h"
 #include "Collections/Stack.h"
-#include "Collections/LinkedList.h"
+#include "Collections/Biqueue.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
@@ -44,7 +44,7 @@ int main(int argc, char const *argv[]){
     cout<<"Otro print"<<endl;
     stack.print();
 
-    LinkedList<Str> list;
+    Biqueue<Str> list;
     Str prueba = "Una prueba", pruebaNode = "Otra prueba", otroStr = "Otro string";
     list.insertAtStart(prueba);list.insertAtStart(pruebaNode);list.insertAtEnd(otroStr);
     list.print();
@@ -56,11 +56,21 @@ int main(int argc, char const *argv[]){
     }
     list.print();
     cout<<endl;
-    LinkedList<Str> test2;
-    test2.insertAtStart(Str("xd"));
-    test2.insertAtStart(textos[0]);
-    test2.insertAtStart(textos[1]);
-    test2.print();
+    list.deleteAtStart();
+    list.deleteAtEnd();
+    list.deleteElement(Str("Otro string"));
+    list.print();
+    list.clear();
+    cout<<endl;
+    cout<<"Test print after clear"<<endl;
+    list.print();
+    list.insertAtStart(Str("prueba"));
+    /* list.deleteAtEnd();
+    cout<<"Test print after set a delete"<<endl;
+    list.print(); */
+    cout<<"Test peek: "<<endl;
+    Str temp = list.peek();
+    cout<<temp<<endl;
     return 0;
 }
 

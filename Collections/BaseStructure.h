@@ -9,6 +9,7 @@ class BaseStructure{
     protected:
         Node<T>* head;
         Node<T>* tail;
+        Node<T>* currentPeak;
         int size;
     public:
         virtual bool insertAtEnd(T data) = 0;
@@ -16,6 +17,7 @@ class BaseStructure{
         virtual bool deleteAtEnd() = 0;
         virtual bool deleteAtStart() = 0;
         virtual bool deleteElement(T data) = 0;
+        T* peek();
         bool isEmpty();
         void print();
         bool clear();
@@ -27,6 +29,7 @@ template <typename T>
 BaseStructure<T>::BaseStructure(){
     this->head = NULL;
     this->tail = NULL;
+    this->currentPeak = NULL;
     size = 0;
 }
 template <typename T>
@@ -51,7 +54,30 @@ bool BaseStructure<T>::clear(){
         currentRef = next;
     }
     this->head = NULL;
+    this->size = 0;
     return true;
+}
+
+/*
+    Beware, you need a copy constructor for T and recieve 
+    the return type on a reference (Ex: Person p = list.peek())
+ */
+
+template <typename T>
+T* BaseStructure<T>::peek(){
+    if(isEmpty()) return NULL;
+    else if(this->currentPeak == NULL){
+        this->currentPeak = this->head;
+    }
+    else if(this->currentPeak->next != NULL){
+        this->currentPeak = this->currentPeak->next;
+    }
+    else{
+        this->currentPeak = NULL;
+        return NULL;
+    }
+    T *ref = new T(this->currentPeak->getData());
+    return ref;
 }
 
 template <typename T>
@@ -60,12 +86,9 @@ void BaseStructure<T>::print(){
     if(isEmpty()){
         return;
     }
-    do{
+    while(tempNode != NULL){
         cout<<tempNode->getData()<<" ";
         tempNode = tempNode->getNext();
-        if(tempNode == tail && tempNode != NULL){
-            cout<<tempNode->getData()<<" ";
-        }
-    }while(tempNode != this->tail && tempNode != NULL);
+    }
 }
 #endif

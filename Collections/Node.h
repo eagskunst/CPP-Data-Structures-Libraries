@@ -14,7 +14,7 @@ public:
     Node<T> *getPrev();
     Node<T> *getNext();
     void setData(T data);
-    template<typename> friend class LinkedList;
+    template<typename> friend class Biqueue;
     template<typename> friend class BaseStructure;
 };
 

@@ -31,6 +31,10 @@ class Str {
         return Str(word);
     }
 
+    friend bool operator!=(const Str &a, const Str &b){
+        return strcmpi(a.cadena, b.cadena) != 0;
+    }
+
     friend bool operator==(const Str &a, const Str &b){
         return strcmpi(a.cadena, b.cadena) == 0;
     }
