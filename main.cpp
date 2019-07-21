@@ -70,7 +70,8 @@ int main(int argc, char const *argv[]){
     cout<<"Test print after set a delete"<<endl;
     list.print(); */
     cout<<"Test peek: "<<endl;
-    Str* temp = list.peek();
+    Str temp;
+    list.peek(temp);
     cout<<temp<<endl;
 
     LinkedList<Str> linked;
@@ -89,8 +90,14 @@ int main(int argc, char const *argv[]){
     linked.clear();
     linked.insertAtStart(Str("Hora de aventura"));
     linked.deleteAtStart();
-    Str* testeo = linked.peek();
+    Str testeo;
+    linked.peek(testeo);
     cout<<testeo<<endl;
+    LinkedList<Persona> plist;
+    plist.insertAtStart(Persona("Emmanuel", 19));
+    Persona auxP;
+    plist.peek(auxP);
+    cout<<auxP<<endl;
     return 0;
 }
 

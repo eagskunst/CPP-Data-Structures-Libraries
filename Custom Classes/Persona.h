@@ -37,8 +37,22 @@ public:
         strcpy(dest, str.c_str());
     }
 
+    Persona* operator= (const Persona *a){
+        if(a == NULL) return NULL;
+        return new Persona(a->nombre, a->edad);
+    }
+
     friend bool operator==(const Persona &a, const Persona &b){
         if(a.nombre == b.nombre && a.edad == b.edad){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    friend bool operator!=(const Persona &a, const Persona &b){
+        if(a.nombre != b.nombre && a.edad != b.edad){
             return true;
         }
         else{

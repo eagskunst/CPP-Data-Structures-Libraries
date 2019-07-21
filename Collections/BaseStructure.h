@@ -17,7 +17,7 @@ class BaseStructure{
         virtual bool deleteAtEnd() = 0;
         virtual bool deleteAtStart() = 0;
         virtual bool deleteElement(T data) = 0;
-        T* peek();
+        void peek(T &value);
         bool isEmpty();
         void print();
         bool clear();
@@ -61,13 +61,20 @@ bool BaseStructure<T>::clear(){
 }
 
 /*
-    Beware, you need a copy constructor for T and recieve 
-    the return type on a reference (Ex: Person p = list.peek())
+    Beware, you need to override your class is '=' operator:
+    Example:
+    Str* operator= (char* word){
+        if(word != NULL) return new Str(word);
+        else return NULL;
+    }
  */
 
 template <typename T>
-T* BaseStructure<T>::peek(){
-    if(isEmpty()) return NULL;
+void BaseStructure<T>::peek(T &value){
+    if(isEmpty()) {
+        value = NULL;
+        return;
+    }
     else if(this->currentPeak == NULL){
         this->currentPeak = this->head;
     }
@@ -76,10 +83,10 @@ T* BaseStructure<T>::peek(){
     }
     else{
         this->currentPeak = NULL;
-        return NULL;
+        value =  NULL;
+        return;
     }
-    T *ref = new T(this->currentPeak->getData());
-    return ref;
+    value = this->currentPeak->getData();
 }
 
 template <typename T>
