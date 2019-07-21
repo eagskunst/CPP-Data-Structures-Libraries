@@ -21,6 +21,7 @@ class BaseStructure{
         bool isEmpty();
         void print();
         bool clear();
+        int getSize();
         BaseStructure();
         ~BaseStructure();
 };
@@ -55,6 +56,7 @@ bool BaseStructure<T>::clear(){
     }
     this->head = NULL;
     this->size = 0;
+    this->currentPeak = NULL;
     return true;
 }
 
@@ -90,5 +92,10 @@ void BaseStructure<T>::print(){
         cout<<tempNode->getData()<<" ";
         tempNode = tempNode->getNext();
     }
+}
+
+template <typename T>
+int BaseStructure<T>::getSize(){
+    return size;
 }
 #endif

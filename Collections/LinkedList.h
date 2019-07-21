@@ -42,15 +42,15 @@ bool LinkedList<T>::insertAtStart(T data){
 template <typename T>
 bool LinkedList<T>::insertAtEnd(T data){
     Node<T> *nNode = new Node<T>(data);
-    Node<T> tempNode = this->head;
+    Node<T> *tempNode = this->head;
     if(!nNode) return false;
     if(this->isEmpty()){
         this->head = nNode;
     }
     else{
         while(tempNode->next != NULL) tempNode = tempNode->next;
+        tempNode->next = nNode;
     }
-    tempNode->next = nNode;
     this->size++;
     return true;
 }

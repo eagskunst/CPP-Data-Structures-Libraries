@@ -8,13 +8,14 @@
 #include "Collections/CircularQueue.h"
 #include "Collections/Stack.h"
 #include "Collections/Biqueue.h"
+#include "Collections/LinkedList.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
     CircularQueue<Str> queue(6);
     Str s("XD");
     queue.remove(s);
-    Str textos[] = {"Hola", "Como", "Estas", "Una"};
+    Str textos[] = {"Hola", "Como", "Estas", "Una", "Prueba", "De", "Cadenas", "Para", "Probar", "Estructuras", "Datos", "equisde"};
     int n = sizeof(textos)/sizeof(Str);
     cout<<n<<endl;
     Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
@@ -69,8 +70,27 @@ int main(int argc, char const *argv[]){
     cout<<"Test print after set a delete"<<endl;
     list.print(); */
     cout<<"Test peek: "<<endl;
-    Str temp = list.peek();
+    Str* temp = list.peek();
     cout<<temp<<endl;
+
+    LinkedList<Str> linked;
+
+    for (int i = 0; i < n; i++){
+        linked.insertAtStart(textos[i]);
+    }
+    linked.deleteAtEnd();
+    linked.print();
+    cout<<endl;
+    cout<<linked.getSize()<<endl;
+    cout<<linked.deleteElement("aber")<<endl;
+    linked.print();
+    cout<<endl;
+
+    linked.clear();
+    linked.insertAtStart(Str("Hora de aventura"));
+    linked.deleteAtStart();
+    Str* testeo = linked.peek();
+    cout<<testeo<<endl;
     return 0;
 }
 
