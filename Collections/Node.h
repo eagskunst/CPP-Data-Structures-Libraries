@@ -16,6 +16,7 @@ public:
     void setData(T data);
     template<typename> friend class Biqueue;
     template<typename> friend class BaseStructure;
+    template<typename> friend class LinkedList;
 };
 
 template <typename T>
