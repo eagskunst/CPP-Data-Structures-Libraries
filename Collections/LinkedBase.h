@@ -9,14 +9,35 @@ class LinkedBase{
     public:
         typedef Node<T>* NodePointer;
 
-        LinkedBase(){ init(NULL, 0); }
+        LinkedBase(){ init(new Node<T>, 0); }
         LinkedBase(T data){ init(new Node<T>(data), 1); }
 
         int getLength(){ return length; }
-        NodePointer getHead(){ return head; }
-        NodePointer getTail(){ return tail; }
-    protected:
 
+        friend std::ostream& operator<<(std::ostream &os, const LinkedBase<T> &l){
+            NodePointer n = l.head;
+            do{
+                try{ os<<n<<std::endl; }
+                catch(...){ return os; }
+                n = n->next();
+            }while(n != l.head );
+            return os;
+        }
+
+        friend LinkedBase<T>& operator+=(LinkedBase<T> &a, const LinkedBase<T> &b){
+            //Retrieve the first node of the list to concatenate.
+            NodePointer node = b.head;
+
+            //Add each node at the end of this list.
+            do{
+                a.pushBack( node->getData() );
+                node = node->next();
+            }while(node != b.head);
+
+            return a;
+        }
+
+    protected:
         /** @brief Appends a new element at the head of the collection.
          *
          * @param The data to be added into the list.
@@ -46,32 +67,17 @@ class LinkedBase{
          */
         int pushBack(const T);
 
-        int append(const LinkedBase<T>&);
         int remove(const T);
         void clear();
 
-        virtual int remove(const T&) = 0;
+        virtual int remove(T&) = 0;
 
-        NodePointer getNode(const int);
-        T get(const int index){ this->getNode(index)->getData(); }
+        void linkSentinels();
 
-        NodePointer findNode(const T, NodePointer *previous = NULL);
-        NodePointer findNode(const NodePointer n, NodePointer *previous = NULL){ return findNode(n->getData(), previous); }
-
-        friend std::ostream& operator<<(std::ostream &os, const LinkedBase<T> &l){
-            NodePointer n = l.head;
-            do{
-                os<<n;
-                n->next();
-            }while(n != l.head );
-            delete n;
-            return os;
-        }
-
-    private:
         NodePointer head, tail;
         int length;
 
+    private:
         void init(NodePointer, int);
 };
 
@@ -79,7 +85,9 @@ template <typename T>
 void LinkedBase<T>::init(NodePointer h, int l){
     head = h;
     length = l;
-    tail = NULL;
+    tail = new Node<T>();
+
+    linkSentinels();
 }
 
 template <typename T>
@@ -91,7 +99,7 @@ int LinkedBase<T>::push(const T data){
 
     //If the list is not empty
     //the new node will point to both head and tail nodes of this collection.
-    if(head){
+    if(length != 0){
         n->setNext(head);
         n->setPrev(tail);
     }
@@ -114,7 +122,7 @@ int LinkedBase<T>::push(const T data, const int index){
     if(!newNode) return -1;
 
     //If the list is not empty.
-    if(head){
+    if(length != 0){
         //Pointer to the previous node to be pushed.
         NodePointer prev = tail;
         //Pointer to the node which is going to be pushed.
@@ -147,39 +155,36 @@ int LinkedBase<T>::pushBack(const T data){
     if(!n) return -1;
 
     //If the list is not empty.
-    if(head){
+    if(length != 0){
         //Link the new node with the tail.
         tail->setNext(n);
         n->setPrev(tail);
 
+        //Link the new node with the head.
+        n->setNext(head);
+        head->setPrev(n);
+
         //Set the new node as the tail.
         tail = n;
-    }else head = n;
+    }else{
+        head = tail = n;
+
+        //Forward.
+        head->setNext(tail);
+        tail->setNext(head);
+
+        //Backward.
+        head->setPrev(tail);
+        tail->setPrev(head);
+    }
 
     return length++;
-}
-
-template <typename T>
-int LinkedBase<T>::append(const LinkedBase<T> &other){
-    //Retrieve the first node of the list to concatenate.
-    NodePointer node = other.getHead();
-
-    if(!node) return -1;
-
-    //Add each node at the end of this list.
-    do{
-        pushBack( node->getData() );
-        node = node->next();
-    }while(node != other.getHead() );
-
-    return length;
 }
 
 template <typename T>
 int LinkedBase<T>::remove(const T data){
 
     if(head->getData() == data){
-        //delete first;
         head = head->next();
         length--;
     }
@@ -205,7 +210,17 @@ int LinkedBase<T>::remove(const T data){
 template <typename T>
 void LinkedBase<T>::clear(){
     head->destroy();
-    head = NULL;
+    head = tail = new Node<T>();
 }
 
+template <typename T>
+void LinkedBase<T>::linkSentinels(){
+    //Forward.
+    head->setNext(tail);
+    tail->setNext(head);
+
+    //Backwards.
+    head->setPrev(tail);
+    tail->setPrev(head);
+}
 #endif // LINKEDBASE_H
