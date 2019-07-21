@@ -9,14 +9,11 @@ template <class T>
 class Node{
     public:
         //WARNING: delegating constructors only available with -std=c++11 or -std=gnu++11
-        Node(): Node(T(), NULL, NULL){}
-        Node(T data): Node(data, NULL, NULL){}
-        Node(T data, Node *__next): Node(data, __next, NULL){}
-        Node(T, Node<T>*, Node<T>*);
-        ~Node(){
-            delete __next;
-            delete __prev;
-        }
+        Node(){ init(T(), NULL, NULL); }
+        Node(T data){ init(data, NULL, NULL); }
+        Node(T data, Node *__next){ init(data, __next, NULL); }
+        Node(T data, Node<T> *__next, Node<T> *__prev){ init(data, __next, __prev); }
+        ~Node(){}
 
         T getData(){ return data; }
         Node<T>* next(){ return __next; }
@@ -25,8 +22,8 @@ class Node{
         void setNext(Node<T> *node){ __next = node; }
         void setPrev(Node<T> *node){ __prev = node; }
         void destroy(){
-            if(__next) __next->destroy();
-            if(__prev) __prev->destroy();
+            if(__next != this) __next->destroy();
+            if(__prev != this) __prev->destroy();
             delete this;
         }
 
@@ -49,10 +46,12 @@ class Node{
         T data;
         Node<T> *__next = NULL;
         Node<T> *__prev = NULL;
+
+        void init(T, Node<T>*, Node<T>*);
 };
 
 template <typename T>
-Node<T>::Node(T data, Node<T> *__next, Node<T> *__prev){
+void Node<T>::init(T data, Node<T> *__next, Node<T> *__prev){
     this->data = data;
     this->__next = __next;
     this->__prev = __prev;
