@@ -17,7 +17,7 @@ class CircularLinkedList: public BaseStructure<T>{
         void restartMove();
         bool deleteAtEnd();
         bool deleteAtStart();
-        bool deleteElement(T data);
+        bool deleteElement(T data){return false;}
         void print();
         void peek(T &value);
         bool clear();
@@ -30,19 +30,19 @@ CircularLinkedList<T>::CircularLinkedList():BaseStructure<T>(){
 
 template <typename T>
 bool CircularLinkedList<T>::insertAtStart(T data){
-    if(this->tail == NULL) return insertEmpty(T data);
+    if(this->tail == NULL) return insertEmpty(data);
 
     Node<T> *nNode = new Node<T>(data);
     if(!nNode) return false;
-    nNode->next = tail->next;
-    tail->next = nNode;
+    nNode->next = this->tail->next;
+    this->tail->next = nNode;
     this->size++;
     return true;
 }
 
 template <typename T>
 bool CircularLinkedList<T>::insertAtEnd(T data){
-    if(this->tail == NULL) return insertEmpty(T data);
+    if(this->tail == NULL) return insertEmpty(data);
 
     Node<T> *nNode = new Node<T>(data);
     if(!nNode) return false;
@@ -65,18 +65,24 @@ bool CircularLinkedList<T>::insertEmpty(T data){
 
 template <typename T>
 bool CircularLinkedList<T>::deleteAtStart(){
+    if(this->tail == NULL) return false;
     Node<T> *mHead = this->tail->next;
-    this-tail->next = mHead->next;
+    this->tail->next = mHead->next;
     free(mHead);
     mHead = NULL;
     this->size--;
+    return true;
 }
 
 template <typename T>
 bool CircularLinkedList<T>::deleteAtEnd(){
+    if(this->tail == NULL) return false;
     move(this->size - 1);
     Node<T> *curr = this->ptr;
-    curr->next = tail->next;
+    curr->next = this->tail->next;
+    this->tail = curr;
+    restartMove();
+    return true;
 }
 
 template <typename T>
@@ -94,12 +100,13 @@ void CircularLinkedList<T>::restartMove(){
 
 template <typename T>
 void CircularLinkedList<T>::print(){
-    Node<T> *tempNode = this->tail;
-    if(tempNode == NULL) return;
+    if(this->tail == NULL) return;
+    Node<T> *tempNode = this->tail->next;
     do{
-        cout<<tempNode->getData()<<endl;
+        cout<<tempNode->getData()<<" ";
         tempNode = tempNode->next;
-    }while(tempNode != this->tail);
+    }while(tempNode != this->tail->next);
+    cout<<endl;
 }
 
 template <typename T>
@@ -121,14 +128,14 @@ template <typename T>
 bool CircularLinkedList<T>::clear(){
     Node<T>* currentRef = this->tail;
     Node<T>* next;
-    if(isEmpty()){
+    if(this->isEmpty()){
         return true;
     }
-    while (currentRef != NULL){
+    do {
         next = currentRef->getNext();
         free(currentRef);
         currentRef = next;
-    }
+    }while(currentRef != this->tail);
     this->tail = NULL;
     this->size = 0;
     this->currentPeak = NULL;

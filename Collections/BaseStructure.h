@@ -99,6 +99,7 @@ void BaseStructure<T>::print(){
         cout<<tempNode->getData()<<" ";
         tempNode = tempNode->getNext();
     }
+    cout<<endl;
 }
 
 template <typename T>

@@ -17,6 +17,7 @@ public:
     template<typename> friend class Biqueue;
     template<typename> friend class BaseStructure;
     template<typename> friend class LinkedList;
+    template<typename> friend class CircularLinkedList;
 };
 
 template <typename T>
