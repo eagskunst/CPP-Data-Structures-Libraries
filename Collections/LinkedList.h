@@ -1,190 +1,137 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include <iostream>
-#include <cstdlib>
 #include "Collections/Node.h"
+#include "Collections/LinkedBase.h"
 
-template <typename T>
-class LinkedList{
+template <class T>
+class LinkedList: public LinkedBase<T>{
     public:
-        LinkedList(){ init(); }
-        LinkedList(T first){ init(new Node<T>(first) ); }
-        LinkedList(Node<T> *first){ init(first); }
+        typedef Node<T>* NodePointer;
 
-        Node<T>* getFirst(){ return first; }
-        Node<T>* getLast() { return last;  }
-        int getSize(){ return size; }
+        LinkedList(): LinkedBase<T>(){}
+        LinkedList(T data): LinkedBase<T>(data){}
 
-        friend ostream& operator<<(ostream &os, const LinkedList<T> &l){
-            Node<T> *n = l.first;
-            while(n){
-                std::cout<<n<<std::endl;
-                n = n->next();
-            }
-            delete n;
-            return os;
-        }
+        /** @brief Appends a new element at the head of the collection.
+         *
+         * @param The data to be added into the list.
+         * @return the length of this collection if succeed. -1 otherwise.
+         *
+         */
+        int push(const T);
 
-        void push(const T);
-        void push(const T, const int);
-        void pushBack(const T);
+        /** @brief Inserts a new element at the provided index of the collection.
+         * If the provided index is greather than the length of this collection,
+         * the new element is added at the tail.
+         * In the same way, if the index is lesser than zero
+         * the new element is added at the head of this collection.
+         *
+         * @param The data to be added into the list.
+         * @param The index where the data will be added.
+         * @return the length of this collection if succeed. -1 otherwise.
+         *
+         */
+        int push(const T, const int);
 
-        Node<T>* getNode(const int);
-        T get(const int index){ return getNode(index)->getData(); }
-
-        Node<T>* findNode(const T, Node<T> **previous = NULL);
-        Node<T>* findNode(const Node<T> *n, Node<T> **previous = NULL){ return findNode(n->getData(), previous); }
-
-        void concat(const LinkedList<T>&);
-        void del(const T);
-        void clear();
+        int pushBack(const T data){ return LinkedBase<T>::pushBack(data); }
+        int remove(const T data);
+        int remove(T &data){ return -1; } //TODO: implement.
+        void clear(){ LinkedBase<T>::clear(); }
 
     protected:
 
     private:
-        int size;
-        Node<T> *first, *last;
-
-        void init(Node<T> *first = NULL);
+        using LinkedBase<T>::head;
+        using LinkedBase<T>::tail;
+        using LinkedBase<T>::length;
 };
 
 template <typename T>
-void LinkedList<T>::init(Node<T> *first){
-    size = 0;
-    this->first = first;
-    last = NULL;
-}
+int LinkedList<T>::push(const T data){
+    NodePointer n = new Node<T>(data);
 
-template <typename T>
-void LinkedList<T>::push(const T element){
-    Node<T> *n = new Node<T>(element);
+    //Check memory allocation.
+    if(!n) return -1;
 
-    //If the list is not empty
-    //the new node will point to the first element of the list.
-    if(first) n->setNext(first);
+    if(length != 0){
+        //Forward.
+        tail->setNext(n);
+        n->setNext(head);
 
-    //Push the new node as the first element.
-    first = n;
-    size++;
-}
+        //Backward.
+        head->setPrev(n);
+        n->setPrev(tail);
 
-template <typename T>
-void LinkedList<T>::push(const T element, const int index){
-    //Validate the index.
-    if(index < 0 || index > size) return;
-
-    if(index == 0){
-        push(element);
-        return;
+        head = n;
+    }else{
+        head = tail = n;
+        this->linkSentinels();
     }
 
-    //The new node to push in the list.
-    Node<T> *newNode = new Node<T>(element);
-
-    //If the list is not empty.
-    if(first){
-        //Pointer to the previous node to be pushed.
-        Node<T> *prev = new Node<T>();
-        //Pointer to the node which is going to be pushed.
-        Node<T> *n = first;
-        for(int i = 0; i < index; i++){
-            prev = n;
-            n = n->next();
-        }
-
-        //The prevous node will point to the newly created node.
-        prev->setNext(newNode);
-        //Push the new node in between the previous and the actual node 'n'.
-        newNode->setNext(n);
-    }else first = newNode;
-    size++;
+    return length++;
 }
 
 template <typename T>
-void LinkedList<T>::pushBack(const T element){
-    Node<T> *n = new Node<T>(element);
+int LinkedList<T>::push(const T data, const int index){
+    //Delegate push subroutine if index is out of bounds.
+    if(index <= 0) return push(data);
+    if(index > length) return pushBack(data);
 
-    //If the list is not empty.
-    if(first){
-        last->setNext(n);
-        last = n;
-    }
-    else first = last = n;
-    size++;
-}
+    //The new node to push into the list.
+    NodePointer newNode = new Node<T>(data);
 
-template <typename T>
-Node<T>* LinkedList<T>::getNode(const int index){
-    if(index < 0 || index >= size) return NULL;
+    //Check for memory errors.
+    if(!newNode) return -1;
 
-    Node<T> *n = first;
-    for(int i = 0; i < index; i++)
+    //Pointer to the previous node to be pushed.
+    NodePointer prev = tail;
+    //Pointer to the node which is going to be pushed.
+    NodePointer n = head;
+
+    //Iterate through the collection until index is reached.
+    for(int i = 0; i < index-1; i++){
+        prev = n;
         n = n->next();
-    return n;
+    }
+
+    //Link the new node with the previous one.
+    prev->setNext(newNode);
+    newNode->setPrev(prev);
+
+    //Link the new node with the immediate next.
+    newNode->setNext(n);
+    n->setPrev(newNode);
+
+    return length++;
 }
 
 template <typename T>
-Node<T>* LinkedList<T>::findNode(const T element, Node<T> **previous){
-    Node<T> *node = first;
+int LinkedList<T>::remove(const T data){
+    if(length == 0) return -1;
 
-    while(node){
-        if(element == node->getData()) return node;
-        if(previous) *previous = node;
-        node = node->next();
-    }
+    NodePointer n = head;
 
-    return NULL;
-}
+    do{
+        if(n->getData() == data){
+            //Unlink the node which contains the data from the list.
+            n->prev()->setNext( n->next() );
+            n->next()->setPrev( n->prev() );
 
-template <typename T>
-void LinkedList<T>::concat(const LinkedList<T> &other){
-    //Retrieve the first node of the list to concatenate.
-    Node<T> *node = other.getFirst();
+            //Reassign sentinel nodes if necessary.
+            if(n == head) head = n->next();
+            else if(n == tail) tail = n->prev();
 
-    //Add each node at the end of this list.
-    while(node){
-        pushBack( node->getData() );
-        node = node->next();
-    }
+            //Deallocate memory.
+            delete n;
 
-}
-
-template <typename T>
-void LinkedList<T>::del(const T element){
-
-    if(first->getData() == element){
-        delete first;
-        first = first->next();
-        size--;
-    }
-
-    size_t i = 0;
-    Node<T> *n1 = first;
-    Node<T> *n2 = first->next();
-    while(n2){
-        if(n2->getData() == element){
-            while(n2 && (n2->next()->getData() == element) ){
-                n2 = n2->next();
-                size--;
-            }
-            n1->setNext(n2->next()?
-                            n2->next():
-                            NULL
-            );
-            i++;
-            size--;
+            return length--;
         }
-        n1 = n1->next();
-        if(n2) n2 = n2->next();
 
-    }
-    if(i == 0) std::cerr<<"Element not found."<<std::endl;
+        n = n->next();
+    }while(n != head);
+
+    //Element not found.
+    return -1;
 }
 
-template <typename T>
-void LinkedList<T>::clear(){
-    first->destroy();
-    first = NULL;
-}
 #endif // LINKEDLIST_H
