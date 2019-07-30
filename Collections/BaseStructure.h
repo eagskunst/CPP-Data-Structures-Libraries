@@ -6,6 +6,8 @@
 
 template <typename T>
 class BaseStructure{
+    private:
+        bool isValidInstanceType();
     protected:
         Node<T>* head;
         Node<T>* tail;
@@ -13,6 +15,7 @@ class BaseStructure{
         int size;
     public:
         virtual bool insertAtEnd(T data) = 0;
+        bool insertAtPosition(T data, int pos);
         virtual bool insertAtStart(T data) = 0;
         virtual bool deleteAtEnd() = 0;
         virtual bool deleteAtStart() = 0;
@@ -90,6 +93,26 @@ void BaseStructure<T>::peek(T &value){
 }
 
 template <typename T>
+bool BaseStructure<T>::insertAtPosition(T data, int pos){
+    // if(!isValidInstanceType()) return false;
+    if(pos<=0) return insertAtStart(data);
+    if(pos>size) return insertAtEnd(data);
+    Node<T>* mRef = this->head == NULL ? this->tail->next : this->head; //Si la cabeza es nula, usar la cola como cabeza 
+    Node<T>* prevRef;
+    int i;
+    for (i = 0; i < pos; i++){
+        prevRef = mRef;
+        mRef = mRef->next;
+    }
+    Node<T>* nodeToAdd = new Node<T>(data);
+    if(!nodeToAdd) return false;
+    prevRef->next = nodeToAdd;
+    nodeToAdd->next = mRef;
+    this->size++;
+    return true;
+}
+
+template <typename T>
 void BaseStructure<T>::print(){
     Node<T>* tempNode = this->head;
     if(isEmpty()){
@@ -106,4 +129,10 @@ template <typename T>
 int BaseStructure<T>::getSize(){
     return size;
 }
+
+/* template <typename T>
+bool BaseStructure<T>::isValidInstanceType(){
+    type_info ti = typeid(Biqueue<T>);
+    return ( typeid(this) != ti );
+} */
 #endif

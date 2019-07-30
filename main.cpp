@@ -21,7 +21,7 @@ int main(int argc, char const *argv[]){
     cout<<n<<endl;
     Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
 
-    CircularLinkedList<Str> list;
+    LinkedList<Str> list;
     list.insertAtStart(textos[0]);
     list.insertAtEnd(textos[1]);
     list.deleteAtEnd();
@@ -35,6 +35,8 @@ int main(int argc, char const *argv[]){
     }
     list.deleteAtEnd();
     list.deleteAtEnd();
+    list.insertAtPosition("Emmanuel",3);
+
     list.print();
     
     
