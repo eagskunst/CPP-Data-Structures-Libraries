@@ -68,7 +68,7 @@ bool CircularLinkedList<T>::deleteAtStart(){
     if(this->tail == NULL) return false;
     Node<T> *mHead = this->tail->next;
     this->tail->next = mHead->next;
-    free(mHead);
+    delete mHead;
     mHead = NULL;
     this->size--;
     return true;
@@ -80,8 +80,11 @@ bool CircularLinkedList<T>::deleteAtEnd(){
     move(this->size - 1);
     Node<T> *curr = this->ptr;
     curr->next = this->tail->next;
+    Node<T> *lastTail = this->tail;
     this->tail = curr;
+    delete lastTail;
     restartMove();
+    this->size--;
     return true;
 }
 
@@ -133,7 +136,7 @@ bool CircularLinkedList<T>::clear(){
     }
     do {
         next = currentRef->getNext();
-        free(currentRef);
+        delete currentRef;
         currentRef = next;
     }while(currentRef != this->tail);
     this->tail = NULL;

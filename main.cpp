@@ -30,6 +30,12 @@ int main(int argc, char const *argv[]){
     cout<<s<<endl;
     list.peek(s);
     cout<<s<<endl;
+    for (int i = 0; i < n; i++){
+        list.insertAtStart(textos[i]);
+    }
+    list.deleteAtEnd();
+    list.deleteAtEnd();
+    list.print();
     
     
     return 0;
