@@ -27,8 +27,13 @@ class Str {
         strcpy(cadena, a.cadena);
     }
 
-    Str operator= (char* word){
-        return Str(word);
+    Str* operator= (char* word){
+        if(word != NULL) return new Str(word);
+        else return NULL;
+    }
+
+    friend bool operator!=(const Str &a, const Str &b){
+        return strcmpi(a.cadena, b.cadena) != 0;
     }
 
     friend bool operator==(const Str &a, const Str &b){

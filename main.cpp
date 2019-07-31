@@ -5,57 +5,43 @@
 #include "Custom Classes/Str.h"
 #include "Searching/busquedas.h"
 #include "Searching/HashSearch.h"
-#include "Collections/CircularQueue.h"
-#include "Collections/Stack.h"
-#include "Collections/LinkedList.h"
+#include "Collections/eagskunst/CircularQueue.h"
+#include "Collections/eagskunst/Stack.h"
+#include "Collections/eagskunst/Biqueue.h"
+#include "Collections/eagskunst/LinkedList.h"
+#include "Collections/eagskunst/CircularLinkedList.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
     CircularQueue<Str> queue(6);
     Str s("XD");
     queue.remove(s);
-    Str textos[] = {"Hola", "Como", "Estas", "Una"};
+    Str textos[] = {"Hola", "Como", "Estas", "Una", "Prueba", "De", "Cadenas", "Para", "Probar", "Estructuras", "Datos", "equisde"};
     int n = sizeof(textos)/sizeof(Str);
     cout<<n<<endl;
     Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
-    queue.add(s1);
-    queue.add(s2);
-    queue.add(s3);
-
-    queue.print();
-
-    queue.remove(s1);
-    queue.remove(s2);
-    for(int i = 0;i<n;i++){
-        queue.add(textos[i]);
-    }
-    cout<<"Otro print"<<endl;
-    queue.print();
-
-    Stack<Str> stack(6);
-    stack.print();
-    stack.remove(s1);
-    for (int i = 0; i < n; i++){
-        stack.add(textos[i]);
-    }
-    stack.print();
-    stack.remove(s1);
-    stack.remove(s1);
-    cout<<"Otro print"<<endl;
-    stack.print();
 
     LinkedList<Str> list;
-    Str prueba = "Una prueba", pruebaNode = "Otra prueba", otroStr = "Otro string";
-    list.insertAtStart(prueba);list.insertAtStart(pruebaNode);list.insertAtEnd(otroStr);
+    list.insertAtStart(textos[0]);
+    list.insertAtEnd(textos[1]);
+    list.deleteAtEnd();
     list.print();
-
-    cout<<"PRUEBA 2"<<endl;
+    list.peek(s);
+    cout<<s<<endl;
+    list.peek(s);
+    cout<<s<<endl;
     for (int i = 0; i < n; i++){
-        if(i%2 == 0) list.insertAtStart(textos[i]);
-        else list.insertAtEnd(textos[i]);
+        list.insertAtStart(textos[i]);
     }
-    list.print();
+    list.deleteAtEnd();
+    list.deleteAtEnd();
+    list.insertAtPosition("Emmanuel",3);
 
+    list.print();
+    if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
+    else cout<<"El elemento no existe"<<endl;
+    
+    
     return 0;
 }
 

@@ -13,12 +13,22 @@ class CircularQueue{
         int front;
         int back;
         bool badMemory = false;
+        T last;
     public:
+        CircularQueue();
         CircularQueue(int size);
+        T getLast(){ return last; };
+        void setQueueSize(int);
         bool add(T buffer);
         bool remove(T &buffer);
+        bool isEmpty();
         void print();
 };
+
+template <typename T>
+CircularQueue<T>::CircularQueue():size(0),front(-1),back(-1){
+    
+}
 
 template <typename T>
 CircularQueue<T>::CircularQueue(int size):size(size),front(-1),back(-1){
@@ -27,7 +37,16 @@ CircularQueue<T>::CircularQueue(int size):size(size),front(-1),back(-1){
         this->badMemory = true;
         std::cout<<"Fallo al asignar memoria.";
     }
+}
 
+template <typename T>
+void CircularQueue<T>::setQueueSize(int size){
+    this->size = size;
+    this->queue = new T[size];
+    if(!queue) {
+        this->badMemory = true;
+        std::cout<<"Fallo al asignar memoria.";
+    }
 }
 
 template <typename T>
@@ -58,6 +77,7 @@ bool CircularQueue<T>::remove(T &buffer){
     }
 
     buffer = this->queue[front];
+    last = buffer;
     
     if(front == back){ //Si se va a eliminar el ultimo elemento de la cola, reiniciarla para que este vacia 
         front = back = -1;
@@ -72,9 +92,15 @@ bool CircularQueue<T>::remove(T &buffer){
 }
 
 template <typename T>
+bool CircularQueue<T>::isEmpty(){
+    return front == -1;
+}
+
+template <typename T>
 void CircularQueue<T>::print(){
     int mFront = front;
     int mBack = back;
+    if(mFront == -1) return;
 
     if(mFront<mBack){
         for (int i = mFront; i <= mBack && i<size; i++){
