@@ -16,6 +16,7 @@ class File {
     public:
         File() { init("", NULL, NULL); }
         File(char *name) { init(name, NULL, NULL); }
+        //File(const File<T> &f){ init(f.getName(),  ); }
 
         /**
          * Contructor for setting pointers to transformation functions which transforms
@@ -34,7 +35,7 @@ class File {
          * This method involves a verification to determine whether the name is valid.
          * @param flags the flags for opening the fstream.
          */
-        void open(const ios_base::openmode &flags);
+        void open(const ios_base::openmode &openmode);
         void close(){ file.close(); }
 
         //Reading and writing for text files.
@@ -51,9 +52,8 @@ class File {
 
         //Basic position operations.
         void realocate(int pos, bool read = true){
-            read?
-                file.seekg(pos*sizeof(T), ios::beg):
-                file.seekp(pos*sizeof(T), ios::beg);
+            if(read) file.seekg(pos*sizeof(T), ios::beg);
+            else file.seekp(pos*sizeof(T), ios::beg);
         }
         void gotoEOF(bool read = true){ realocate(length, read); }
         void gotoSOF(bool read = true){ // Go to the start of the file.
@@ -68,10 +68,9 @@ class File {
         bool isFail()   { return file.fail(); }
         T getBuffer()   { return buffer;      }
         int getLength() { return length;      }
+        void getToObject( T(*pf)(char* str) ){ pf = toObject; }
 
-        /*
-         * Compute the length of the file, in lines.
-         */
+        /* Compute the length of the file, in lines. */
         int computeLength(){ return file.tellg()/sizeof(T); }
 
         void setName(char* name){ strcpy(this->name, name); }
