@@ -84,7 +84,7 @@ bool DoubleLinkedList<T>::insertAtEnd(T data){
 
 template <typename T>
 bool DoubleLinkedList<T>::deleteAtEnd(){
-    if(isEmpty()) return false;
+    if(this->isEmpty()) return false;
     if(this->size == 1){
         delete this->head;
     }
@@ -101,7 +101,7 @@ bool DoubleLinkedList<T>::deleteAtEnd(){
 
 template <typename T>
 bool DoubleLinkedList<T>::deleteAtStart(){
-    if(isEmpty()) return false;
+    if(this->isEmpty()) return false;
     if(this->size == 1){
         delete this->head;
     }
@@ -118,27 +118,40 @@ bool DoubleLinkedList<T>::deleteAtStart(){
 
 template <typename T>
 bool DoubleLinkedList<T>::deleteElement(T data){
-    if(isEmpty()) return false;
+    if(this->isEmpty()) return false;
     Node<T>* mHead = this->head;
     Node<T>* mTail = this->tail;
     if(mHead != NULL && mHead->getData() == data){
         delete mHead;
+        this->size--;
         return true;
     }
     else if(mTail != NULL && mTail->getData() == data){
         delete mTail;
+        this->size--;
         return true;
     }
     else if(mHead != NULL && mTail != NULL){
         Node<T>* checkNode = mHead->next;
-        Node<T>* prevCheckNode = checkNode->prev;
         while(checkNode != mTail){
+            /* Accedemos al nodo previo y al nodo siguiente
+               y al nodo de donde se encuentra la data.
+            */
             if(checkNode->getData() == data) {
-                prevCheckNode->next = checkNode->next;
-                checkNode->prev = prevCheckNode;
+                Node<T>* beforeFoundDataNode = checkNode->prev;
+                Node<T>* afterFoundDataNode = checkNode->next;
+                beforeFoundDataNode->next = afterFoundDataNode;
+                afterFoundDataNode->prev = beforeFoundDataNode;
+                delete checkNode;
+                this->size--;
+                return true;
             }
+            else checkNode = checkNode->next;
         }
+        cout<<"No se encontro el elemento."<<endl;
+        return false;
     }
+    else return false;
 }
 
 template <typename T>
