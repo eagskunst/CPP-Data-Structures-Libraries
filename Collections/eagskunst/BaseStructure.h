@@ -15,13 +15,13 @@ class BaseStructure{
         Node<T>* tail;
         Node<T>* currentPeak;
         int size;
-    public:
         virtual bool insertAtEnd(T data) = 0;
         bool insertAtPosition(T data, int pos);
         virtual bool insertAtStart(T data) = 0;
         virtual bool deleteAtEnd() = 0;
         virtual bool deleteAtStart() = 0;
         virtual bool deleteElement(T data) = 0;
+    public:
         void peek(T &value);
         bool isEmpty();
         void print();
@@ -95,6 +95,7 @@ void BaseStructure<T>::peek(T &value){
     value = this->currentPeak->getData();
 }
 
+//Prev is used because of DoubleLinked DS. It won't affect other DS that depends on node.next only
 template <typename T>
 bool BaseStructure<T>::insertAtPosition(T data, int pos){
     // if(!isValidInstanceType()) return false;
@@ -109,8 +110,10 @@ bool BaseStructure<T>::insertAtPosition(T data, int pos){
     }
     Node<T>* nodeToAdd = new Node<T>(data);
     if(!nodeToAdd) return false;
+    nodeToAdd->prev = prevRef;
     prevRef->next = nodeToAdd;
     nodeToAdd->next = mRef;
+    mRef->prev = nodeToAdd;
     this->size++;
     return true;
 }
