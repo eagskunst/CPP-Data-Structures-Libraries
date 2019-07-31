@@ -60,6 +60,7 @@ bool DynamicLinealStructure<T>::push(T data){
                 this->tail = nNode;
             }
             this->size++;
+            return true;
             break;
         }
         case StackType: {
@@ -74,6 +75,7 @@ bool DynamicLinealStructure<T>::push(T data){
                 this->head = nNode;
             }
             this->size++;
+            return true;
             break;
         }
     }
@@ -84,6 +86,27 @@ bool DynamicLinealStructure<T>::insertAtPosition(T data, int pos){
     if(structureType == List) return this->insertAtPosition(data, pos);
     cout<<"La Cola/Pila no permite insertar en una posicion especifica."
     return false;
+}
+
+template <typename T>
+bool DynamicLinealStructure<T>::pop(T &element){
+    if(this->isEmpty()) {
+        element = NULL;
+        return false;
+    }
+    switch(DynamicLinealStructure){
+        case ListType:
+        case StackType:
+        case QueueType: {
+            Node<T>* mHead = this->head;
+            element = mHead->getData();
+            this->head = mHead->next;
+            delete mHead;//OJO
+            this->size--;
+            return true;
+            break;
+        }
+    }
 }
 
 template <typename T>
