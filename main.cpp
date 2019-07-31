@@ -11,6 +11,7 @@
 #include "Collections/eagskunst/LinkedList.h"
 #include "Collections/eagskunst/CircularLinkedList.h"
 #include "Collections/eagskunst/DoubleLinkedList.h"
+#include "Collections/eagskunst/DynamicLinealStructure.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
@@ -43,8 +44,7 @@ int main(int argc, char const *argv[]){
     list.print();
     if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
     else cout<<"El elemento no existe"<<endl;
-    
-    
+    DynamicLinealStructure<Str> dls(QueueType);
     return 0;
 }
 

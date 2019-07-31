@@ -15,13 +15,13 @@ class BaseStructure{
         Node<T>* tail;
         Node<T>* currentPeak;
         int size;
-    public:
         virtual bool insertAtEnd(T data) = 0;
         bool insertAtPosition(T data, int pos);
         virtual bool insertAtStart(T data) = 0;
         virtual bool deleteAtEnd() = 0;
         virtual bool deleteAtStart() = 0;
         virtual bool deleteElement(T data) = 0;
+    public:
         void peek(T &value);
         bool isEmpty();
         void print();
