@@ -3,11 +3,13 @@
 
 #include "Node.h"
 #include <iostream>
+#include <cmath>
 
 template <typename T>
 class BaseStructure{
     private:
         bool isValidInstanceType();
+        Node<T>* getStartNode();
     protected:
         Node<T>* head;
         Node<T>* tail;
@@ -24,6 +26,7 @@ class BaseStructure{
         bool isEmpty();
         void print();
         bool clear();
+        bool contains(T obj);
         int getSize();
         BaseStructure();
         ~BaseStructure();
@@ -97,7 +100,7 @@ bool BaseStructure<T>::insertAtPosition(T data, int pos){
     // if(!isValidInstanceType()) return false;
     if(pos<=0) return insertAtStart(data);
     if(pos>size) return insertAtEnd(data);
-    Node<T>* mRef = this->head == NULL ? this->tail->next : this->head; //Si la cabeza es nula, usar la cola como cabeza 
+    Node<T>* mRef = getStartNode();
     Node<T>* prevRef;
     int i;
     for (i = 0; i < pos; i++){
@@ -128,6 +131,27 @@ void BaseStructure<T>::print(){
 template <typename T>
 int BaseStructure<T>::getSize(){
     return size;
+}
+
+template <typename T>
+bool BaseStructure<T>::contains(T obj){
+    if(isEmpty()) return false;
+    Node<T>* mRef = getStartNode();
+    
+    if(mRef->getData() == obj) return true;
+    
+    Node<T>* startNode = mRef;
+    mRef = mRef->getNext();
+    while(mRef != NULL && mRef != startNode){
+        if(mRef->getData() == obj) return true;
+        mRef = mRef->next;
+    }
+    return false;
+}
+
+template <typename T>
+Node<T>* BaseStructure<T>::getStartNode(){
+    return this->head == NULL ? this->tail->next : this->head; //Si la cabeza es nula, usar la cola como cabeza 
 }
 
 /* template <typename T>

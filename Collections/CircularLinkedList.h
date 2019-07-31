@@ -145,5 +145,4 @@ bool CircularLinkedList<T>::clear(){
     return true;
 }
 
-
 #endif

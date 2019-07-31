@@ -38,6 +38,8 @@ int main(int argc, char const *argv[]){
     list.insertAtPosition("Emmanuel",3);
 
     list.print();
+    if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
+    else cout<<"El elemento no existe"<<endl;
     
     
     return 0;
