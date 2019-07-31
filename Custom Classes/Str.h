@@ -1,5 +1,4 @@
 #include <string.h>
-#include <iostream>
 using namespace std;
 #define max_l 150
 
