@@ -41,19 +41,21 @@ bool DynamicLinealStructure<T>::pushIfEmpty(T data){
     Node<T>* nNode = new Node<T>(data);
     if(!nNode) return false;
     this->head = nNode;
+    this->size++;
     return true;
 }
 
 template <typename T>
 bool DynamicLinealStructure<T>::push(T data){
     if(this->isEmpty()) return pushIfEmpty(data);
-    switch(DynamicLinealStructure){
+    switch(structureType){
         case ListType:
         case QueueType: {
             Node<T>* nNode = new Node<T>(data);
             if(!nNode) return false;
             if(this->size == 1){
                 this->tail = nNode;
+                this->head->next = this->tail;
             }
             else{
                 this->tail->next = nNode;
@@ -68,23 +70,25 @@ bool DynamicLinealStructure<T>::push(T data){
             if(!nNode) return false;
             if(this->size == 1){
                 this->tail = this->head;
-                this->head = nNode;
             }
-            else{
-                this->head->next = nNode;
-                this->head = nNode;
-            }
+
+            nNode->next = this->head;
+            this->head = nNode;
+            
             this->size++;
             return true;
             break;
         }
+        default: return false;
+        break;
     }
+    return false;
 }
 
 template <typename T>
 bool DynamicLinealStructure<T>::insertAtPosition(T data, int pos){
-    if(structureType == List) return this->insertAtPosition(data, pos);
-    cout<<"La Cola/Pila no permite insertar en una posicion especifica."
+    if(structureType == ListType) return this->insertAtPosition(data, pos);
+    cout<<"La Cola/Pila no permite insertar en una posicion especifica.";
     return false;
 }
 
@@ -94,7 +98,7 @@ bool DynamicLinealStructure<T>::pop(T &element){
         element = NULL;
         return false;
     }
-    switch(DynamicLinealStructure){
+    switch(structureType){
         case ListType:
         case StackType:
         case QueueType: {
@@ -106,7 +110,10 @@ bool DynamicLinealStructure<T>::pop(T &element){
             return true;
             break;
         }
+        default: return false;
+        break;
     }
+    return false;
 }
 
 template <typename T>

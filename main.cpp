@@ -23,7 +23,7 @@ int main(int argc, char const *argv[]){
     cout<<n<<endl;
     Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
 
-    DoubleLinkedList<Str> list;
+    /*DoubleLinkedList<Str> list;
     list.insertAtStart(textos[0]);
     list.insertAtEnd(textos[1]);
     list.deleteAtEnd();
@@ -43,9 +43,21 @@ int main(int argc, char const *argv[]){
     list.deleteElement("Datos");
     list.print();
     if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
-    else cout<<"El elemento no existe"<<endl;
-    DynamicLinealStructure<Str> dls(QueueType);
-    cout<<dls.getStructureType()<<endl;
+    else cout<<"El elemento no existe"<<endl;*/
+    DynamicLinealStructure<Str> dls(StackType);
+    for (int i = 0; i < n; i++){
+        dls.push(textos[i]);
+    }
+    dls.print();
+    Str testeo;
+    int size2 = dls.getSize();
+    for(int i = 0; i<size2; i++){
+        dls.pop(testeo);
+        cout<<"Value: "<<testeo<<endl;
+    }
+    dls.push("Emmanuel");
+    dls.push("Gabriel");
+    dls.print();
     return 0;
 }
 
