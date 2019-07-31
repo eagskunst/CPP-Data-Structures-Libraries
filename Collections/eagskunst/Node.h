@@ -19,6 +19,7 @@ public:
     template<typename> friend class LinkedList;
     template<typename> friend class CircularLinkedList;
     template<typename> friend class DoubleLinkedList;
+    template<typename> friend class DynamicLinealStructure;
 };
 
 template <typename T>

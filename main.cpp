@@ -45,6 +45,7 @@ int main(int argc, char const *argv[]){
     if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
     else cout<<"El elemento no existe"<<endl;
     DynamicLinealStructure<Str> dls(QueueType);
+    cout<<dls.getStructureType()<<endl;
     return 0;
 }
 
