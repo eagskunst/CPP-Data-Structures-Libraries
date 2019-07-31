@@ -95,6 +95,7 @@ void BaseStructure<T>::peek(T &value){
     value = this->currentPeak->getData();
 }
 
+//Prev is used because of DoubleLinked DS. It won't affect other DS that depends on node.next only
 template <typename T>
 bool BaseStructure<T>::insertAtPosition(T data, int pos){
     // if(!isValidInstanceType()) return false;
@@ -109,8 +110,10 @@ bool BaseStructure<T>::insertAtPosition(T data, int pos){
     }
     Node<T>* nodeToAdd = new Node<T>(data);
     if(!nodeToAdd) return false;
+    nodeToAdd->prev = prevRef;
     prevRef->next = nodeToAdd;
     nodeToAdd->next = mRef;
+    mRef->prev = nodeToAdd;
     this->size++;
     return true;
 }
