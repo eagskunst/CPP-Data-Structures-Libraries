@@ -5,11 +5,11 @@
 #include "Custom Classes/Str.h"
 #include "Searching/busquedas.h"
 #include "Searching/HashSearch.h"
-#include "Collections/CircularQueue.h"
-#include "Collections/Stack.h"
-#include "Collections/Biqueue.h"
-#include "Collections/LinkedList.h"
-#include "Collections/CircularLinkedList.h"
+#include "Collections/eagskunst/CircularQueue.h"
+#include "Collections/eagskunst/Stack.h"
+#include "Collections/eagskunst/Biqueue.h"
+#include "Collections/eagskunst/LinkedList.h"
+#include "Collections/eagskunst/CircularLinkedList.h"
 using namespace std;
 
 int main(int argc, char const *argv[]){
