@@ -51,7 +51,7 @@ int main(int argc, char const *argv[]){
     for (int i = 0; i < numbersS; i++){
         sortTest.insertAtStart(numbers[i]);
     }
-    sortTest.sort();
+    sortTest.sort(false);
     sortTest.print();
     
    /*  DynamicLinealStructure<Str> dls(StackType);

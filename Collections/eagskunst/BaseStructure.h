@@ -29,7 +29,7 @@ class BaseStructure{
         bool clear();
         bool contains(T obj);
         int getSize();
-        void sort();
+        void sort(bool);
         T* toArray();
         BaseStructure();
         ~BaseStructure();
@@ -172,10 +172,10 @@ Node<T>* BaseStructure<T>::getStartNode(){
 }
 
 template <typename T>
-void BaseStructure<T>::sort(){
+void BaseStructure<T>::sort(bool ascending){
     T* mArray = toArray();
     const int mSize = this->size;
-    quickSort(mArray, 0, mSize - 1);
+    quickSort(mArray, 0, mSize - 1, ascending);
     clear();
     for (int i = 0; i < mSize; i++){
         insertAtEnd(mArray[i]);
