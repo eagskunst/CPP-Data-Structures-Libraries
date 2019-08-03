@@ -2,6 +2,7 @@
 #define EAGS_BASE_STRUCTURE
 
 #include "Node.h"
+#include "../../Algorithms/algoritmos.h"
 #include <iostream>
 #include <cmath>
 
@@ -28,6 +29,8 @@ class BaseStructure{
         bool clear();
         bool contains(T obj);
         int getSize();
+        void sort();
+        T* toArray();
         BaseStructure();
         ~BaseStructure();
 };
@@ -50,7 +53,7 @@ bool BaseStructure<T>::isEmpty(){
 
 template <typename T>
 bool BaseStructure<T>::clear(){
-    Node<T>* currentRef = this->head;
+    Node<T>* currentRef = getStartNode();
     Node<T>* next;
     if(isEmpty()){
         return true;
@@ -153,8 +156,30 @@ bool BaseStructure<T>::contains(T obj){
 }
 
 template <typename T>
+T* BaseStructure<T>::toArray(){
+    T* array = new T[size];
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < size; i++){
+        array[i] = mRef->getData();
+        mRef = mRef->next;
+    }
+    return array;
+}
+
+template <typename T>
 Node<T>* BaseStructure<T>::getStartNode(){
     return this->head == NULL ? this->tail->next : this->head; //Si la cabeza es nula, usar la cola como cabeza 
+}
+
+template <typename T>
+void BaseStructure<T>::sort(){
+    T* mArray = toArray();
+    const int mSize = this->size;
+    quickSort(mArray, 0, mSize - 1);
+    clear();
+    for (int i = 0; i < mSize; i++){
+        insertAtEnd(mArray[i]);
+    }   
 }
 
 /* template <typename T>
