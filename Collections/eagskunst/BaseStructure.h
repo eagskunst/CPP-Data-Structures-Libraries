@@ -26,7 +26,7 @@ class BaseStructure{
         void peek(T &value);
         bool isEmpty();
         void print();
-        bool clear();
+        virtual bool clear(); //Not pure virtual because non-circular classes depends on base
         bool contains(T obj);
         int getSize();
         void sort(bool);
@@ -52,7 +52,7 @@ bool BaseStructure<T>::isEmpty(){
 }
 
 template <typename T>
-bool BaseStructure<T>::clear(){
+bool BaseStructure<T>::clear(){ //If fails, change 'delete currentRef' for 'free(currentRef)'
     Node<T>* currentRef = getStartNode();
     Node<T>* next;
     if(isEmpty()){
@@ -60,7 +60,7 @@ bool BaseStructure<T>::clear(){
     }
     while (currentRef != NULL){
         next = currentRef->getNext();
-        free(currentRef);
+        delete currentRef;
         currentRef = next;
     }
     this->head = NULL;

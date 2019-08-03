@@ -60,6 +60,7 @@ bool CircularLinkedList<T>::insertEmpty(T data){
     if(!(this->tail)) return false;
     this->tail->next = this->tail;
     this->ptr = this->tail;
+    this->size++;
     return true;
 }
 
