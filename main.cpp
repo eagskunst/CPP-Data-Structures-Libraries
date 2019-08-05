@@ -15,7 +15,7 @@
 using namespace std;
 
 int main(int argc, char const *argv[]){
- /*    CircularQueue<Str> queue(6);
+    CircularQueue<Str> queue(6);
     Str s("XD");
     queue.remove(s);
     Str textos[] = {"Hola", "Como", "Estas", "Una", "Prueba", "De", "Cadenas", "Para", "Probar", "Estructuras", "Datos", "equisde"};
@@ -41,9 +41,9 @@ int main(int argc, char const *argv[]){
     list.deleteElement("Datos");
     list.print();
     if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
-    else cout<<"El elemento no existe"<<endl; */
+    else cout<<"El elemento no existe"<<endl;
     
-    CircularLinkedList<int> sortTest;
+   /*  CircularLinkedList<int> sortTest;
     int numbers[] = {1,435,12,47,25,62,2,51,98,31,47};
     int numbersS = sizeof(numbers)/sizeof(int);
     for (int i = 0; i < numbersS; i++){
@@ -54,9 +54,9 @@ int main(int argc, char const *argv[]){
     sortTest.clear();
     sortTest.print();
     sortTest.insertAtStart(19);
-    sortTest.print();
+    sortTest.print(); */
     
-   /*  DynamicLinealStructure<Str> dls(StackType);
+    DynamicLinealStructure<Str> dls(StackType);
     for (int i = 0; i < n; i++){
         dls.push(textos[i]);
     }
@@ -69,7 +69,7 @@ int main(int argc, char const *argv[]){
     }
     dls.push("Emmanuel");
     dls.push("Gabriel");
-    dls.print(); */
+    dls.print();
     return 0;
 }
 

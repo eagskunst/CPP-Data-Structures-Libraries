@@ -23,11 +23,14 @@ class BaseStructure{
         virtual bool deleteAtStart() = 0;
         virtual bool deleteElement(T data) = 0;
     public:
+        static const int NOT_FOUND = -1;
         void peek(T &value);
         bool isEmpty();
         void print();
         virtual bool clear(); //Not pure virtual because non-circular classes depends on base
         bool contains(T obj);
+        virtual int find(T obj);
+        virtual void getAt(int pos, T &value);
         int getSize();
         void sort(bool);
         T* toArray();
@@ -180,6 +183,36 @@ void BaseStructure<T>::sort(bool ascending){
     for (int i = 0; i < mSize; i++){
         insertAtEnd(mArray[i]);
     }   
+}
+
+template <typename T>
+int BaseStructure<T>::find(T data){
+    int pos = 0;
+    if(isEmpty()) return NOT_FOUND;
+    Node<T>* mRef = getStartNode();
+    while(mRef != NULL){
+        T nodeData = mRef->getData();
+        if(nodeData == data) return pos;
+        else{
+            mRef = mRef->next;
+            pos++;
+        }
+    }
+    return NOT_FOUND;
+}
+
+template <typename T>
+void BaseStructure<T>::getAt(int pos, T &value){
+    if(pos<0) pos*= -1;
+    if(pos>=size) {
+        value = NULL;
+        return;
+    }
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < pos; i++){
+        mRef = mRef->next;
+    }
+    value = mRef->getData();
 }
 
 /* template <typename T>
