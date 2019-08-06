@@ -32,6 +32,8 @@ class BaseStructure{
         bool contains(T obj);
         virtual int find(T obj);
         virtual void getAt(int pos, T &value);
+        virtual bool modify(int pos, T newValue);
+        virtual bool modify(T oldValue, T newValue);
         int getSize();
         void sort(bool);
         T* toArray();
@@ -221,6 +223,31 @@ void BaseStructure<T>::getAt(int pos, T &value){
         mRef = mRef->next;
     }
     value = mRef->getData();
+}
+
+template <typename T>
+bool BaseStructure<T>::modify(const int pos, const T newData){
+    if(pos>= size || isEmpty()) return false;
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < pos; i++){
+        mRef = mRef->next;
+    }
+    mRef->setData(newData);
+    return true;
+}
+
+template <typename T>
+bool BaseStructure<T>::modify(const T oldValue, const T newData){
+    if(isEmpty()) return false;
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < size; i++){
+        if(mRef->mData == oldValue){
+            mRef->setData(newData);
+            return true;
+        }
+        mRef = mRef->next;
+    }
+    return false;
 }
 
 /* template <typename T>

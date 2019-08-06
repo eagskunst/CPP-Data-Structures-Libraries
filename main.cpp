@@ -70,6 +70,9 @@ int main(int argc, char const *argv[]){
     dls.push("Emmanuel");
     dls.push("Gabriel");
     dls.print();
+    dls.modify(0, "Bertha");
+    dls.modify("Emmanuel", "Ivan");
+    dls.print();
     return 0;
 }
 
