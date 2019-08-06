@@ -24,6 +24,7 @@ class BaseStructure{
         virtual bool deleteElement(T data) = 0;
     public:
         static const int NOT_FOUND = -1;
+        friend bool operator==(BaseStructure<T> &a, BaseStructure<T> &b);
         void peek(T &value);
         bool isEmpty();
         void print();
@@ -47,6 +48,13 @@ BaseStructure<T>::BaseStructure(){
 }
 template <typename T>
 BaseStructure<T>::~BaseStructure(){
+}
+
+template <typename S>
+bool operator==(BaseStructure<S> &a, BaseStructure<S> &b){
+    Node<S>* starNode1 = a->getStartNode();
+    Node<S>* starNode2 = b->getStartNode();
+    return a == b;
 }
 
 template <typename T>

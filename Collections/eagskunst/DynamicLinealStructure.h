@@ -25,11 +25,18 @@ class DynamicLinealStructure: public BaseStructure<T> {
         bool deleteElement(T data){return false;}
     public:
         DynamicLinealStructure(DynamicTypes);
+        DynamicLinealStructure();
         bool push(T data);
         bool pop(T &element);
         DynamicTypes getStructureType();
         ~DynamicLinealStructure();
 };
+
+template <typename T>
+DynamicLinealStructure<T>::DynamicLinealStructure():BaseStructure<T>(){
+    this->structureType = ListType;
+}
+
 
 template <typename T>
 DynamicLinealStructure<T>::DynamicLinealStructure(DynamicTypes sType):BaseStructure<T>(){
