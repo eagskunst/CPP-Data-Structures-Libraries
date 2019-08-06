@@ -2,6 +2,7 @@
 #define EAGS_BASE_STRUCTURE
 
 #include "Node.h"
+#include "../../Algorithms/algoritmos.h"
 #include <iostream>
 #include <cmath>
 
@@ -22,12 +23,20 @@ class BaseStructure{
         virtual bool deleteAtStart() = 0;
         virtual bool deleteElement(T data) = 0;
     public:
+        static const int NOT_FOUND = -1;
+        friend bool operator==(BaseStructure<T> &a, BaseStructure<T> &b);
         void peek(T &value);
         bool isEmpty();
         void print();
-        bool clear();
+        virtual bool clear(); //Not pure virtual because non-circular classes depends on base
         bool contains(T obj);
+        virtual int find(T obj);
+        virtual void getAt(int pos, T &value);
+        virtual bool modify(int pos, T newValue);
+        virtual bool modify(T oldValue, T newValue);
         int getSize();
+        void sort(bool);
+        T* toArray();
         BaseStructure();
         ~BaseStructure();
 };
@@ -43,21 +52,28 @@ template <typename T>
 BaseStructure<T>::~BaseStructure(){
 }
 
+template <typename S>
+bool operator==(BaseStructure<S> &a, BaseStructure<S> &b){
+    Node<S>* starNode1 = a->getStartNode();
+    Node<S>* starNode2 = b->getStartNode();
+    return a == b;
+}
+
 template <typename T>
 bool BaseStructure<T>::isEmpty(){
     return size == 0;
 }
 
 template <typename T>
-bool BaseStructure<T>::clear(){
-    Node<T>* currentRef = this->head;
+bool BaseStructure<T>::clear(){ //If fails, change 'delete currentRef' for 'free(currentRef)'
+    Node<T>* currentRef = getStartNode();
     Node<T>* next;
     if(isEmpty()){
         return true;
     }
     while (currentRef != NULL){
         next = currentRef->getNext();
-        free(currentRef);
+        delete currentRef;
         currentRef = next;
     }
     this->head = NULL;
@@ -153,8 +169,85 @@ bool BaseStructure<T>::contains(T obj){
 }
 
 template <typename T>
+T* BaseStructure<T>::toArray(){
+    T* array = new T[size];
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < size; i++){
+        array[i] = mRef->getData();
+        mRef = mRef->next;
+    }
+    return array;
+}
+
+template <typename T>
 Node<T>* BaseStructure<T>::getStartNode(){
     return this->head == NULL ? this->tail->next : this->head; //Si la cabeza es nula, usar la cola como cabeza 
+}
+
+template <typename T>
+void BaseStructure<T>::sort(bool ascending){
+    T* mArray = toArray();
+    const int mSize = this->size;
+    quickSort(mArray, 0, mSize - 1, ascending);
+    clear();
+    for (int i = 0; i < mSize; i++){
+        insertAtEnd(mArray[i]);
+    }   
+}
+
+template <typename T>
+int BaseStructure<T>::find(T data){
+    int pos = 0;
+    if(isEmpty()) return NOT_FOUND;
+    Node<T>* mRef = getStartNode();
+    while(mRef != NULL){
+        T nodeData = mRef->getData();
+        if(nodeData == data) return pos;
+        else{
+            mRef = mRef->next;
+            pos++;
+        }
+    }
+    return NOT_FOUND;
+}
+
+template <typename T>
+void BaseStructure<T>::getAt(int pos, T &value){
+    if(pos<0) pos*= -1;
+    if(pos>=size) {
+        value = NULL;
+        return;
+    }
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < pos; i++){
+        mRef = mRef->next;
+    }
+    value = mRef->getData();
+}
+
+template <typename T>
+bool BaseStructure<T>::modify(const int pos, const T newData){
+    if(pos>= size || isEmpty()) return false;
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < pos; i++){
+        mRef = mRef->next;
+    }
+    mRef->setData(newData);
+    return true;
+}
+
+template <typename T>
+bool BaseStructure<T>::modify(const T oldValue, const T newData){
+    if(isEmpty()) return false;
+    Node<T>* mRef = getStartNode();
+    for (int i = 0; i < size; i++){
+        if(mRef->mData == oldValue){
+            mRef->setData(newData);
+            return true;
+        }
+        mRef = mRef->next;
+    }
+    return false;
 }
 
 /* template <typename T>

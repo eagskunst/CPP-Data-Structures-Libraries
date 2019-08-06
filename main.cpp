@@ -23,15 +23,13 @@ int main(int argc, char const *argv[]){
     cout<<n<<endl;
     Str s1("Prueba1"), s2("Prueba2"), s3("Prueba4");
 
-    /*DoubleLinkedList<Str> list;
+    DoubleLinkedList<Str> list;
     list.insertAtStart(textos[0]);
     list.insertAtEnd(textos[1]);
     list.deleteAtEnd();
     list.print();
-    list.peek(s);
-    cout<<s<<endl;
-    list.peek(s);
-    cout<<s<<endl;
+    list.clear();
+    list.print();
     for (int i = 0; i < n; i++){
         list.insertAtStart(textos[i]);
     }
@@ -43,7 +41,21 @@ int main(int argc, char const *argv[]){
     list.deleteElement("Datos");
     list.print();
     if(list.contains("Emmanuel")) cout<<"El elemento existe"<<endl;
-    else cout<<"El elemento no existe"<<endl;*/
+    else cout<<"El elemento no existe"<<endl;
+    
+   /*  CircularLinkedList<int> sortTest;
+    int numbers[] = {1,435,12,47,25,62,2,51,98,31,47};
+    int numbersS = sizeof(numbers)/sizeof(int);
+    for (int i = 0; i < numbersS; i++){
+        sortTest.insertAtStart(numbers[i]);
+    }
+    sortTest.sort(false);
+    sortTest.print();
+    sortTest.clear();
+    sortTest.print();
+    sortTest.insertAtStart(19);
+    sortTest.print(); */
+    
     DynamicLinealStructure<Str> dls(StackType);
     for (int i = 0; i < n; i++){
         dls.push(textos[i]);
@@ -57,6 +69,9 @@ int main(int argc, char const *argv[]){
     }
     dls.push("Emmanuel");
     dls.push("Gabriel");
+    dls.print();
+    dls.modify(0, "Bertha");
+    dls.modify("Emmanuel", "Ivan");
     dls.print();
     return 0;
 }

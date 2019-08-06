@@ -71,14 +71,18 @@ void shellSort(T list[], int n){
 }
 
 template <class T>
-int particion(T list[], int low, int high){
+int particion(T list[], int low, int high, bool ascending){
     int i = low-1;
     T pivot;
     T aux;
 
     pivot = list[high];
     for(int j = low; j < high; j++){
-        if(list[j]<pivot){
+        if(!ascending && list[j]<pivot){
+            i++;
+            burbuja(list[i], list[j]);
+        }
+        else if(ascending && list[j]>pivot){
             i++;
             burbuja(list[i], list[j]);
         }
@@ -92,11 +96,11 @@ int particion(T list[], int low, int high){
 }
 
 template <class T>
-void quickSort(T list[], int low, int high){
+void quickSort(T list[], int low, int high, bool ascending){
     if(low < high){
-        int index = particion(list, low, high);
-        quickSort(list, low, index-1);
-        quickSort(list, index+1, high);
+        int index = particion(list, low, high, ascending);
+        quickSort(list, low, index-1, ascending);
+        quickSort(list, index+1, high, ascending);
     }
 }
 
