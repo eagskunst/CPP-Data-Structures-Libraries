@@ -22,12 +22,10 @@ class Archivo {
 
     public: 
         Archivo(){
-            Archivo("");
+            setNombre(" ");
         }
 
-        Archivo(char *nombre, bool isTextFile = true){
-            Archivo(nombre, NULL, NULL, isTextFile);
-            setNombre(nombre);
+        Archivo(const char *nombre, bool isTextFile = true):Archivo(nombre, NULL, NULL, isTextFile){
         }
 
         Archivo(const char *nom, T(*toObject)(char *str), void(*toString)(T Obj, char *buffer),
@@ -78,6 +76,16 @@ class Archivo {
                 }
             }
             return buffer;
+        }
+
+        char readChar(){
+            char buffer;
+            file.get(buffer);
+            return buffer;
+        }
+
+        void writeChar(char c){
+            file<<c;
         }
 
         void write(T &a){ //Escribe en la linea en la que este posicionada el archivo
