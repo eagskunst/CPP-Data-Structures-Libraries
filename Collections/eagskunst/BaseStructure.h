@@ -24,7 +24,7 @@ class BaseStructure{
         virtual bool deleteElement(T data) = 0;
     public:
         static const int NOT_FOUND = -1;
-        friend bool operator==(BaseStructure<T> &a, BaseStructure<T> &b);
+        //friend bool operator==(BaseStructure<T> &a, BaseStructure<T> &b);
         void peek(T &value);
         bool isEmpty();
         void print();
@@ -33,7 +33,7 @@ class BaseStructure{
         virtual int find(T obj);
         virtual void getAt(int pos, T &value);
         virtual bool modify(int pos, T newValue);
-        virtual bool modify(T oldValue, T newValue);
+        virtual bool modify(T oldValue, T newValue, bool unused = true);
         int getSize();
         void sort(bool);
         T* toArray();
@@ -52,12 +52,12 @@ template <typename T>
 BaseStructure<T>::~BaseStructure(){
 }
 
-template <typename S>
+/* template <typename S>
 bool operator==(BaseStructure<S> &a, BaseStructure<S> &b){
     Node<S>* starNode1 = a->getStartNode();
     Node<S>* starNode2 = b->getStartNode();
     return a == b;
-}
+} */
 
 template <typename T>
 bool BaseStructure<T>::isEmpty(){
@@ -237,7 +237,7 @@ bool BaseStructure<T>::modify(const int pos, const T newData){
 }
 
 template <typename T>
-bool BaseStructure<T>::modify(const T oldValue, const T newData){
+bool BaseStructure<T>::modify(const T oldValue, const T newData, bool unused){
     if(isEmpty()) return false;
     Node<T>* mRef = getStartNode();
     for (int i = 0; i < size; i++){

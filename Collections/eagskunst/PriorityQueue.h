@@ -5,56 +5,87 @@
 using namespace std;
 
 template <typename T>
-class PriorityQueue : BaseStructure<DynamicLinealStructure<T>> {
+class PriorityQueue {
     private:
         DynamicLinealStructure<int> prioritiesList;
-        /*Override BaseStructure methods not needed */
-        bool insertAtEnd(T data){return false;}
-        bool insertAtPosition(T data, int pos);
-        bool insertAtStart(T data){return false;}
-        bool deleteAtEnd(){return false;}
-        bool deleteAtStart(){return false;}
-        bool deleteElement(T data){return false;}
+        DynamicLinealStructure<DynamicLinealStructure<T>*> queueList = DynamicLinealStructure<DynamicLinealStructure<T>*>(ListType);
     public:
         PriorityQueue();
         PriorityQueue(int);
-        bool add(int priority, T data);
-        bool addPriority(int);
-        bool pop(int priority);
         PriorityQueue(int[]);
+        bool push(int, T);
+        bool pop(T&);
+        void print();
+        //bool pop(int priority);
+        bool isEmpty();
 };
 
 template <typename T>
-PriorityQueue<T>::PriorityQueue() : BaseStructure<DynamicLinealStructure<T>>(){
-    prioritiesList(ListType);
-    DynamicLinealStructure<T> queue(QueueType);
-    Node<T>* newQueue = new Node<DynamicLinealStructure<T>>(queue);
-    this->head = newQueue;
-    prioritiesList.push(0);
+PriorityQueue<T>::PriorityQueue(){
+
 }
 
 template <typename T>
-PriorityQueue<T>::PriorityQueue(int startingPriority) : BaseStructure<DynamicLinealStructure<T>>(){
-    prioritiesList(ListType);
-    DynamicLinealStructure<T> queue(QueueType);
-    Node<T>* newQueue = new Node<DynamicLinealStructure<T>>(queue);
-    this->head = newQueue;
+PriorityQueue<T>::PriorityQueue(int startingPriority){
+    DynamicLinealStructure<T>* newQueue = new DynamicLinealStructure<T>(QueueType);
+    queueList.push(newQueue);
     prioritiesList.push(startingPriority);
 }
 
 template <typename T>
-PriorityQueue<T>::PriorityQueue(int priorities[]) : BaseStructure<DynamicLinealStructure<T>>(){
-    queueList(ListType);
-    prioritiesList(ListType);
+PriorityQueue<T>::PriorityQueue(int priorities[]){
     const int n = sizeof(priorities)/sizeof(int);
-    Node<T>* newQueue;
+    DynamicLinealStructure<T>* newQueue;
     for (int i = 0; i < n; i++){
-        DynamicLinealStructure<T> queue(QueueType);
-        newQueue = new Node<DynamicLinealStructure<T>>(queue);
-        if(i == 0) this->head = newQueue;
-        newQueue = newQueue->next;
         prioritiesList.push(priorities[i]);
+        newQueue = new DynamicLinealStructure<T>(QueueType);
+        queueList.push(newQueue);
+    }   
+}
+
+template <typename T>
+bool PriorityQueue<T>::push(const int priority, T data){
+    DynamicLinealStructure<T>* newQueue;
+    if(!prioritiesList.contains(priority)){
+        prioritiesList.push(priority);
+        newQueue = new DynamicLinealStructure<T>(QueueType);
+        newQueue->push(data);
+        queueList.push(newQueue);
+        return true;
     }
+    const int pos = prioritiesList.find(priority);
+    queueList.getAt(pos, newQueue);
+    return newQueue->push(data);
+}
+
+template <typename T>
+bool PriorityQueue<T>::pop(T &data){
+    DynamicLinealStructure<T>* newQueue;
+    queueList.getAt(0, newQueue);
+    if(newQueue == NULL) return false;
+    if(newQueue->isEmpty()) return false;
+    const bool didPop = newQueue->pop(data);
+    if(newQueue->isEmpty()){
+        DynamicLinealStructure<T>* temp;
+        queueList.pop(temp);
+    }
+    return didPop;
+}
+
+template <typename T>
+bool PriorityQueue<T>::isEmpty(){
+    return queueList.getSize() == 0;
+}
+
+template <typename T>
+void PriorityQueue<T>::print(){
+    const int count = queueList.getSize();
+    DynamicLinealStructure<T>* bufferQueue;
+    for (int i = 0; i < count; i++){
+        queueList.getAt(i, bufferQueue);
+        bufferQueue->print();
+    }
+    
 }
 
 #endif
