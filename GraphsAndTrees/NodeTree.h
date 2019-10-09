@@ -7,7 +7,7 @@ private:
     T mData;
     NodeTree<T> *left;
     NodeTree<T> *right;
-
+    int height;
 public:
     NodeTree(T &data);
     T getData();
@@ -17,6 +17,7 @@ public:
     void setRight(NodeTree<T>*);
     void setData(T data);
     template<typename> friend class BinaryTree;
+    template<typename> friend class BinaryAvlTree;
 };
 
 template <typename T>

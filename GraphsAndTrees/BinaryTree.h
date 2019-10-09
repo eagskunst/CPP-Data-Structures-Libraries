@@ -15,7 +15,7 @@ using namespace std;
 
 template <typename T>
 class BinaryTree{
-private:
+protected:
     const int LEFT = 0;
     const int RIGHT = 1;
     NodeTree<T>* root;
@@ -25,7 +25,7 @@ private:
     bool remove(T data, NodeTree<T>*&);
     int getNodeLevel(T, NodeTree<T>*, int);
     int max(const int, const int);
-    int getHeight(NodeTree<T>*);
+    virtual int getHeight(NodeTree<T>*);
 public:
     BinaryTree(T);
     BinaryTree();
@@ -33,11 +33,12 @@ public:
     void setRoot(NodeTree<T>*);
     bool contains(T data);
     T* getData(T);
-    bool insert(T data);
-    bool remove(T data);
+    virtual bool insert(T data);
+    virtual bool remove(T data);
     int getNodeLevel(T);
     int getHeight();
     void printInorder(NodeTree<T>*);
+    void printPreorder(NodeTree<T>*);
     void printPretty();
 };
 
@@ -217,6 +218,15 @@ void BinaryTree<T>::printInorder(NodeTree<T>* tempNode){
     printInorder(tempNode->right);
     cout<< tempNode->getData() << " ";
     printInorder(tempNode->right);
+}
+
+template <typename T>
+void BinaryTree<T>::printPreorder(NodeTree<T>* node){
+    if(node != NULL){
+        cout<<node->getData()<<" ";
+        printPreorder(node->getLeft());
+        printPreorder(node->getRight());
+    }
 }
 
 #endif
