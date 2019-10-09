@@ -2,17 +2,33 @@
 #include <iostream>
 #include "GraphsAndTrees/BinaryTree.h"
 
-using namespace std;
-
 int main(int argc, char const *argv[]){
     BinaryTree<int> t;
 
-    for (int i = 0; i < 3; i++){
-        t.insert(i);
-    }
+    t.insert(90);
+    t.insert(50);
+    t.insert(150);
+    t.insert(20);
+    t.insert(75);
+    t.insert(95);
+    t.insert(175);
+    t.insert(5);
+    t.insert(25);
+    t.insert(66);
+    t.insert(80);
+    t.insert(92);
+    t.insert(111);
+    t.insert(166);
+    t.insert(200);
 
-    t.printInorder(t.getRoot());
-    
+    t.printPretty();
+    t.remove(95);
+    cout<<"ARBOL 2: \n\n";
+    t.printPretty();
+    int level = t.getNodeLevel(175);
+    cout<<"Nivel: "<<level<<endl;
+    int altura = t.getHeight();
+    cout<<"Altura: "<<altura<<endl;
     return 0;
 }
 
